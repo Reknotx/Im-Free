@@ -15,6 +15,10 @@ public class Player : SingletonPattern<Player>
     [Range(0.1f, 0.5f)]
     public float speedReducer = .3f;
 
+    [Tooltip("The force at which objects are punched.")]
+    [Range(500, 1500)]
+    public float forceModifier = 500f;
+
     [Tooltip("The attack zone of the player.")]
     public GameObject attackZone;
 
@@ -40,6 +44,8 @@ public class Player : SingletonPattern<Player>
         forward = Vector3.Normalize(forward); // make sure the length of vector is set to a max of 1.0
         
         right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward; // set the right-facing vector to be facing right relative to the camera's forward vector
+
+        attackZone.SetActive(false);
     }
 
     private void Update()
@@ -81,10 +87,36 @@ public class Player : SingletonPattern<Player>
     {
         attackZone.SetActive(true);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
         attackZone.SetActive(false);
         isAttacking = false;
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 12)
+        {
+            Debug.Log("Trigger hit the shit.");
+
+            if(other.GetComponent<Rigidbody>() != null)
+            {
+                Rigidbody punchedObj = other.GetComponent<Rigidbody>();
+
+                punchedObj.useGravity = true;
+                punchedObj.isKinematic = false;
+
+
+                ///TODO - This does not work!!
+                Vector3 startVector = transform.forward;
+                Vector3 punchDir = Quaternion.AngleAxis(-80, Vector3.right) * startVector;
+                ///TODO - This does not work!!
+
+                Debug.Log("Punch direction is: (" + punchDir.x + ", " + punchDir.y + ", " + punchDir.z + ")");
+
+                punchedObj.AddForce(punchDir.normalized * forceModifier);
+            }
+        }
     }
 }
