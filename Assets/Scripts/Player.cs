@@ -96,27 +96,32 @@ public class Player : SingletonPattern<Player>
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 12)
+        if (other.gameObject.layer != 12) return;
+        
+        Debug.Log("Trigger hit the shit.");
+
+        if(other.GetComponent<Rigidbody>() != null)
         {
-            Debug.Log("Trigger hit the shit.");
+            Rigidbody punchedObj = other.GetComponent<Rigidbody>();
 
-            if(other.GetComponent<Rigidbody>() != null)
-            {
-                Rigidbody punchedObj = other.GetComponent<Rigidbody>();
-
-                punchedObj.useGravity = true;
-                punchedObj.isKinematic = false;
+            punchedObj.useGravity = true;
+            punchedObj.isKinematic = false;
 
 
-                ///TODO - This does not work!!
-                Vector3 startVector = transform.forward;
-                Vector3 punchDir = Quaternion.AngleAxis(-80, Vector3.right) * startVector;
-                ///TODO - This does not work!!
+            ///TODO - This does not work!!
+            Vector3 startVector = transform.forward;
 
-                Debug.Log("Punch direction is: (" + punchDir.x + ", " + punchDir.y + ", " + punchDir.z + ")");
+            Debug.Log(startVector.ToString());
 
-                punchedObj.AddForce(punchDir.normalized * forceModifier);
-            }
+            Vector3 punchDir = new Vector3(startVector.x, startVector.y += .5f, startVector.z);
+
+
+            //Vector3 punchDir = Quaternion.AngleAxis(-80, Vector3.right) * startVector;
+            ///TODO - This does not work!!
+
+            Debug.Log("Punch direction is: (" + punchDir.x + ", " + punchDir.y + ", " + punchDir.z + ")");
+
+            punchedObj.AddForce(punchDir.normalized * forceModifier);
         }
     }
 }
