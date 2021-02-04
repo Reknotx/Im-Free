@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// Author: Chase O'Connor
+/// Date: 2/1/2021
+/// <summary> The player class. </summary>
 public class Player : SingletonPattern<Player>
 {
+    #region Field
     [Tooltip("The speed of the player")]
     public float speed = 0.25f;
 
@@ -19,6 +23,7 @@ public class Player : SingletonPattern<Player>
     [Range(500, 1500)]
     public float forceModifier = 500f;
 
+    /// <summary> The attack zone of the player. </summary>
     [Tooltip("The attack zone of the player.")]
     public GameObject attackZone;
 
@@ -30,6 +35,7 @@ public class Player : SingletonPattern<Player>
     //[HideInInspector] public bool moving = false;
     
     Vector3 forward, right; // Keeps track of our relative forward and right vectors
+    #endregion
 
     protected override void Awake()
     {
@@ -83,6 +89,11 @@ public class Player : SingletonPattern<Player>
 
     }
 
+    /// Author: Chase O'Connor
+    /// Date: 2/2/2021
+    /// <summary>
+    /// Activates the attack zone of the player for 0.1 seconds.
+    /// </summary>
     IEnumerator Attack()
     {
         attackZone.SetActive(true);
@@ -96,27 +107,26 @@ public class Player : SingletonPattern<Player>
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 12)
+        if (other.gameObject.layer != 12) return;
+        
+        Debug.Log("Trigger hit the shit.");
+
+        if(other.GetComponent<Rigidbody>() != null)
         {
-            Debug.Log("Trigger hit the shit.");
+            Rigidbody punchedObj = other.GetComponent<Rigidbody>();
 
-            if(other.GetComponent<Rigidbody>() != null)
-            {
-                Rigidbody punchedObj = other.GetComponent<Rigidbody>();
+            punchedObj.useGravity = true;
+            punchedObj.isKinematic = false;
 
-                punchedObj.useGravity = true;
-                punchedObj.isKinematic = false;
+            Vector3 startVector = transform.forward;
 
+            Debug.Log(startVector.ToString());
 
-                ///TODO - This does not work!!
-                Vector3 startVector = transform.forward;
-                Vector3 punchDir = Quaternion.AngleAxis(-80, Vector3.right) * startVector;
-                ///TODO - This does not work!!
+            Vector3 punchDir = new Vector3(startVector.x, startVector.y += .5f, startVector.z);
 
-                Debug.Log("Punch direction is: (" + punchDir.x + ", " + punchDir.y + ", " + punchDir.z + ")");
+            Debug.Log("Punch direction is: (" + punchDir.x + ", " + punchDir.y + ", " + punchDir.z + ")");
 
-                punchedObj.AddForce(punchDir.normalized * forceModifier);
-            }
+            punchedObj.AddForce(punchDir.normalized * forceModifier);
         }
     }
 }

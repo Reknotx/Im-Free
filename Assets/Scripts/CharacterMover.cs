@@ -11,6 +11,9 @@ public class CharacterMover : MonoBehaviour
 
         if (hit.collider == null) return;
 
-        Player.Instance.transform.LookAt(new Vector3(hit.point.x, 1f, hit.point.z));
+        Player.Instance.transform.LookAt(new Vector3(hit.point.x,
+                                                     Player.Instance.transform.parent.position.y
+                                                     + (Player.Instance.GetComponent<CapsuleCollider>().height / 2),
+                                                     hit.point.z));
     }
 }
