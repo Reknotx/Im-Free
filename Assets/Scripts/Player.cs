@@ -5,36 +5,43 @@ using UnityEngine;
 /// Author: Chase O'Connor
 /// Date: 2/1/2021
 /// <summary> The player class. </summary>
+/// <remarks>Handles movement</remarks>
 public class Player : SingletonPattern<Player>
 {
     #region Field
-    [Tooltip("The speed of the player")]
-    public float speed = 0.25f;
-
-    //[Tooltip("Modifer to how quick the player lurches on their attack")]
-    //[Range(0.5f, 5f)]
-    //public float attackLurchSpeed = 3f;
-
-    [Tooltip("The amount of reduction applied to player speed while attacking.")]
-    [Range(0.1f, 0.5f)]
-    public float speedReducer = .3f;
-
-    [Tooltip("The force at which objects are punched.")]
-    [Range(500, 1500)]
-    public float forceModifier = 500f;
+    /// <summary> The player's rigidbody on the parent. </summary>
+    private Rigidbody playerRB;
 
     /// <summary> The attack zone of the player. </summary>
     [Tooltip("The attack zone of the player.")]
     public GameObject attackZone;
 
-    bool isAttacking = false;
-
     /// <summary> The transform reference to the player's parent. </summary>
     [HideInInspector] public Transform playerTrans;
 
-    //[HideInInspector] public bool moving = false;
-    
-    Vector3 forward, right; // Keeps track of our relative forward and right vectors
+    /// <summary> The speed of the player. </summary>
+    [Tooltip("The speed of the player")]
+    public float speed = 0.25f;
+
+    /// <summary> Reduces player speed by fraction when attacking. </summary>
+    [Tooltip("The amount of reduction applied to player speed while attacking.")]
+    [Range(0.1f, 0.5f)]
+    public float speedReducer = .3f;
+
+    /// <summary> The multiplier used to increase 
+    /// the force objects are punched at. </summary>
+    [Tooltip("The force at which objects are punched.")]
+    [Range(500, 1500)]
+    public float forceModifier = 500f;
+
+    // Keeps track of our relative forward and right vectors
+    Vector3 forward, right;
+    #endregion
+
+    #region Properties
+    /// <summary> Is the player attacking. </summary>
+    /// <value> A value of true indicates the player is attacking. </value>
+    private bool IsAttacking { get; set; } = false;
     #endregion
 
     protected override void Awake()
@@ -43,18 +50,24 @@ public class Player : SingletonPattern<Player>
 
         playerTrans = transform.parent;
 
-        forward = Camera.main.transform.forward; // Set forward to equal the camera's forward vector
+        playerRB = transform.parent.GetComponent<Rigidbody>();
 
-        forward.y = 0; // make sure y is 0
-        
-        forward = Vector3.Normalize(forward); // make sure the length of vector is set to a max of 1.0
-        
-        right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward; // set the right-facing vector to be facing right relative to the camera's forward vector
+        // Set forward to equal the camera's forward vector
+        forward = Camera.main.transform.forward;
+
+        // make sure y is 0
+        forward.y = 0;
+
+        // make sure the length of vector is set to a max of 1.0
+        forward = Vector3.Normalize(forward);
+
+        // set the right-facing vector to be facing right relative to the camera's forward vector
+        right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
 
         attackZone.SetActive(false);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.W)
             || Input.GetKey(KeyCode.S)
@@ -63,30 +76,55 @@ public class Player : SingletonPattern<Player>
         {
             Move();
         }
+    }
 
-        if (Input.GetMouseButtonDown(0) && isAttacking == false)
+    private void Update()
+    {
+        Rotate();
+
+        if (Input.GetMouseButtonDown(0) && IsAttacking == false)
         {
-            isAttacking = true;
+            IsAttacking = true;
             StartCoroutine(Attack());
         }
     }
 
+    /// Author: Chase O'Connor
+    /// Date: 2/1/2021
+    /// <summary> Moves the player in an isometric fashion based on their input. </summary>
     void Move()
     {
-        // Our right movement is based on the right vector, movement speed, and our GetAxis command. We multiply by Time.deltaTime to make the movement smooth.
+        // Our right movement is based on the right vector, movement speed, and our GetAxis command. 
+        // We multiply by Time.deltaTime to make the movement smooth.
         Vector3 rightMovement = right * Input.GetAxis("Horizontal");
 
         // Up movement uses the forward vector, movement speed, and the vertical axis inputs.
         Vector3 upMovement = forward * Input.GetAxis("Vertical");
 
-        // This creates our new direction. By combining our right and forward movements and normalizing them, we create a new vector that points in the appropriate direction with a length no greater than 1.0
+        // This creates our new direction. By combining our right and forward movements and normalizing them, 
+        // we create a new vector that points in the appropriate direction with a length no greater than 1.0
         Vector3 heading = Vector3.Normalize(rightMovement + upMovement);
 
-        if (isAttacking)
-            playerTrans.position += heading * (speed * speedReducer) * Time.deltaTime;
+        if (IsAttacking)
+            playerRB.MovePosition(playerTrans.position + heading * (speed * speedReducer) * Time.deltaTime);
         else
-            playerTrans.position += heading * speed * Time.deltaTime;
+            playerRB.MovePosition(playerTrans.position + heading * speed * Time.deltaTime);
 
+    }
+
+    /// Author: Chase O'Connor
+    /// Date 2/1/2021
+    /// <summary> Rotates the player to face a the position of the mouse cursor. </summary>
+    void Rotate()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Physics.Raycast(ray, out RaycastHit hit, 1000f, 1 << 8);
+
+        if (hit.collider == null) return;
+
+        transform.LookAt(new Vector3(hit.point.x,
+                                                     transform.position.y,
+                                                     hit.point.z));
     }
 
     /// Author: Chase O'Connor
@@ -101,7 +139,7 @@ public class Player : SingletonPattern<Player>
         yield return new WaitForSeconds(0.1f);
 
         attackZone.SetActive(false);
-        isAttacking = false;
+        IsAttacking = false;
 
     }
 
