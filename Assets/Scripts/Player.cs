@@ -5,13 +5,11 @@ using UnityEngine;
 /// Author: Chase O'Connor
 /// Date: 2/1/2021
 /// <summary> The player class. </summary>
-/// <remarks>Handles movement</remarks>
+/// <remarks>Handles movement, rotating the player, and all of their commands.</remarks>
 public class Player : SingletonPattern<Player>
 {
-    #region Field
-    /// <summary> The player's rigidbody on the parent. </summary>
-    private Rigidbody playerRB;
-
+    #region Fields
+    #region Public
     /// <summary> The attack zone of the player. </summary>
     [Tooltip("The attack zone of the player.")]
     public GameObject attackZone;
@@ -33,15 +31,47 @@ public class Player : SingletonPattern<Player>
     [Tooltip("The force at which objects are punched.")]
     [Range(500, 1500)]
     public float forceModifier = 500f;
+    #endregion
+
+    #region Private
+    /// <summary> The player's rigidbody on the parent. </summary>
+    private Rigidbody playerRB;
 
     // Keeps track of our relative forward and right vectors
     Vector3 forward, right;
+
+    /// <summary> The private field of the player's health. </summary>
+    private float _health = 100f;
+    #endregion
     #endregion
 
     #region Properties
     /// <summary> Is the player attacking. </summary>
     /// <value> A value of true indicates the player is attacking. </value>
     private bool IsAttacking { get; set; } = false;
+
+    /// <summary> The player's current health </summary>
+    public float Health
+    {
+        get => _health;
+        set
+        {
+            _health = value;
+
+            UIManager.Instance.UpdateHealth();
+
+            if (_health <= 0f)
+            {
+                IsDead = true;
+
+                UIManager.Instance.StartCoroutine(UIManager.Instance.DeathDisplayFade());
+            }
+        }
+    }
+
+    /// <summary> Flag for if the player is dead or alive. </summary>
+    /// <value>The value is true if the player's health is at or below zero.</value>
+    private bool IsDead { get; set; } = false;
     #endregion
 
     protected override void Awake()
@@ -80,6 +110,8 @@ public class Player : SingletonPattern<Player>
 
     private void Update()
     {
+        if (IsDead) return;
+        
         Rotate();
 
         if (Input.GetMouseButtonDown(0) && IsAttacking == false)
@@ -87,6 +119,8 @@ public class Player : SingletonPattern<Player>
             IsAttacking = true;
             StartCoroutine(Attack());
         }
+
+        Health -= Time.deltaTime;
     }
 
     /// Author: Chase O'Connor
@@ -129,9 +163,7 @@ public class Player : SingletonPattern<Player>
 
     /// Author: Chase O'Connor
     /// Date: 2/2/2021
-    /// <summary>
-    /// Activates the attack zone of the player for 0.1 seconds.
-    /// </summary>
+    /// <summary> Activates the attack zone of the player for 0.1 seconds. </summary>
     IEnumerator Attack()
     {
         attackZone.SetActive(true);
