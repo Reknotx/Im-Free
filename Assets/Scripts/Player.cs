@@ -145,16 +145,15 @@ public class Player : SingletonPattern<Player>
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer != 12) return;
+        Debug.Log(other.name);
+
+        if (other.gameObject.layer != 12 && other.gameObject.layer != 14) return;
         
         Debug.Log("Trigger hit the shit.");
 
         if(other.GetComponent<Rigidbody>() != null)
         {
             Rigidbody punchedObj = other.GetComponent<Rigidbody>();
-
-            punchedObj.useGravity = true;
-            punchedObj.isKinematic = false;
 
             Vector3 startVector = transform.forward;
 
@@ -163,8 +162,34 @@ public class Player : SingletonPattern<Player>
             Vector3 punchDir = new Vector3(startVector.x, startVector.y += .5f, startVector.z);
 
             Debug.Log("Punch direction is: (" + punchDir.x + ", " + punchDir.y + ", " + punchDir.z + ")");
+            
+            if (other.gameObject.layer == 14)
+            {
+                List<GameObject> punchedChildren = new List<GameObject>();
 
-            punchedObj.AddForce(punchDir.normalized * forceModifier);
+                foreach (Transform child in punchedObj.transform)
+                {
+                    child.GetComponent<Collider>().enabled = true;
+                    child.GetComponent<Rigidbody>().isKinematic = false;
+                    child.GetComponent<Rigidbody>().useGravity = true;
+                    punchedChildren.Add(child.gameObject);
+                }
+
+                foreach (GameObject obj in punchedChildren)
+                {
+                    obj.transform.parent = null;
+                    obj.GetComponent<Rigidbody>().AddForce(punchDir.normalized * forceModifier);
+                }
+
+                Destroy(punchedObj.gameObject);
+            }
+            else
+            {
+                punchedObj.useGravity = true;
+                punchedObj.isKinematic = false;
+                punchedObj.AddForce(punchDir.normalized * forceModifier);
+            }
+
         }
     }
 }
