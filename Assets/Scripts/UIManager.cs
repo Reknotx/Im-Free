@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : SingletonPattern<UIManager>
 {
@@ -34,5 +35,19 @@ public class UIManager : SingletonPattern<UIManager>
     public void DeathFade()
     {
         LeanTween.alphaCanvas(deathFade, 1f, 1f);
+    }
+
+    public void Reset()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void QuitApp()
+    {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+
+        Application.Quit();
     }
 }
