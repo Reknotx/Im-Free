@@ -17,7 +17,6 @@ public class UIManager : SingletonPattern<UIManager>
     public CanvasGroup deathFade;
     #endregion
 
-
     protected override void Awake()
     {
         base.Awake();
@@ -27,16 +26,13 @@ public class UIManager : SingletonPattern<UIManager>
     }
 
     /// <summary> Updates the health slider to match the player's current health. </summary>
-    public void UpdateHealth() => healthSlider.value = Player.Instance.Health / 100f;
-
-    public IEnumerator DeathDisplayFade()
+    public void UpdateHealth()
     {
-        while (deathFade.alpha < 1f)
-        {
-            deathFade.alpha += 0.05f;
-            yield return new WaitForFixedUpdate();
-
-        }
+        healthSlider.value = Player.Instance.Health / 100f;
     }
 
+    public void DeathFade()
+    {
+        LeanTween.alphaCanvas(deathFade, 1f, 1f);
+    }
 }

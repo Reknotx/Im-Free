@@ -41,7 +41,7 @@ public class Player : SingletonPattern<Player>
     Vector3 forward, right;
 
     /// <summary> The private field of the player's health. </summary>
-    private float _health = 100f;
+    private float _health = 2f;
     #endregion
     #endregion
 
@@ -64,7 +64,7 @@ public class Player : SingletonPattern<Player>
             {
                 IsDead = true;
 
-                UIManager.Instance.StartCoroutine(UIManager.Instance.DeathDisplayFade());
+                UIManager.Instance.DeathFade();
             }
         }
     }
@@ -177,11 +177,11 @@ public class Player : SingletonPattern<Player>
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
+        //Debug.Log(other.name);
 
         if (other.gameObject.layer != 12 && other.gameObject.layer != 14) return;
         
-        Debug.Log("Trigger hit the shit.");
+        //Debug.Log("Trigger hit the shit.");
 
         if(other.GetComponent<Rigidbody>() != null)
         {
@@ -189,11 +189,11 @@ public class Player : SingletonPattern<Player>
 
             Vector3 startVector = transform.forward;
 
-            Debug.Log(startVector.ToString());
+            //Debug.Log(startVector.ToString());
 
             Vector3 punchDir = new Vector3(startVector.x, startVector.y += .5f, startVector.z);
 
-            Debug.Log("Punch direction is: (" + punchDir.x + ", " + punchDir.y + ", " + punchDir.z + ")");
+            //Debug.Log("Punch direction is: (" + punchDir.x + ", " + punchDir.y + ", " + punchDir.z + ")");
             
             if (other.gameObject.layer == 14)
             {
