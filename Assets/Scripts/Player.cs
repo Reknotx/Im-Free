@@ -52,6 +52,14 @@ public class Player : SingletonPattern<Player>
     /// <value> A value of true indicates the player is attacking. </value>
     private bool IsAttacking { get; set; } = false;
 
+    /// <summary> Is the player lurching. </summary>
+    /// <value> A value of true indicates the player is lurching forward. </value>
+    private bool IsLurching { get; set; } = false;
+
+    /// <summary> Is the player sucking an enemy. </summary>
+    /// <value> A value of true indicates the player is sucking an enemy currently.</value>
+    private bool IsSucking { get; set; } = false;
+
     /// <summary> The player's current health </summary>
     public float Health
     {
@@ -101,6 +109,8 @@ public class Player : SingletonPattern<Player>
 
     private void FixedUpdate()
     {
+        if (IsLurching || IsSucking) return;
+
         if (Input.GetKey(KeyCode.W)
             || Input.GetKey(KeyCode.S)
             || Input.GetKey(KeyCode.A)
@@ -116,14 +126,20 @@ public class Player : SingletonPattern<Player>
         
         Rotate();
 
-        if (Input.GetMouseButtonDown(0) && IsAttacking == false)
+
+        if (!IsLurching && Input.GetMouseButtonDown(1))
         {
+            ///Lurch forward
+        }
+        else if (IsSucking && Input.GetMouseButtonUp(1))
+        {
+            ///End the lurch early
+        }
+        else if (Input.GetMouseButtonDown(0) && IsAttacking == false)
+        {
+            ///Attack the enemy
             IsAttacking = true;
             StartCoroutine(Attack());
-        }
-        else if (Input.GetMouseButtonDown(1))
-        {
-
         }
 
         Health -= Time.deltaTime;
@@ -187,8 +203,20 @@ public class Player : SingletonPattern<Player>
 
         attackZone.SetActive(false);
         IsAttacking = false;
+    }
+
+    IEnumerator Lurch()
+    {
+        Vector3 lurchEnd = playerTrans.position + transform.forward;
+
+        while (Vector3.Distance(playerTrans.position, lurchEnd) >= 0.1f)
+        {
+            yield return new WaitForFixedUpdate();
+        }
+
 
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
