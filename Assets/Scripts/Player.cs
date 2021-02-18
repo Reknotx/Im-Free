@@ -41,7 +41,9 @@ public class Player : SingletonPattern<Player>
     Vector3 forward, right;
 
     /// <summary> The private field of the player's health. </summary>
-    private float _health = 2f;
+    private float _health = 100f;
+
+    public GameObject suckedEnemy;
     #endregion
     #endregion
 
@@ -119,6 +121,10 @@ public class Player : SingletonPattern<Player>
             IsAttacking = true;
             StartCoroutine(Attack());
         }
+        else if (Input.GetMouseButtonDown(1))
+        {
+
+        }
 
         Health -= Time.deltaTime;
     }
@@ -159,6 +165,15 @@ public class Player : SingletonPattern<Player>
         transform.LookAt(new Vector3(hit.point.x,
                                                      transform.position.y,
                                                      hit.point.z));
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    void Suck()
+    {
+
+
     }
 
     /// Author: Chase O'Connor

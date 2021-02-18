@@ -23,8 +23,6 @@ public class Enemy : MonoBehaviour
     {
         Vector3 heading = Player.Instance.transform.position - transform.position;
 
-        //heading.y = 1f;
-
         heading *= -1;
 
         GetComponent<Rigidbody>().MovePosition(transform.position + heading.normalized * 5f * Time.deltaTime);
