@@ -44,6 +44,9 @@ public class Player : SingletonPattern<Player>
     private float _health = 100f;
 
     public GameObject suckedEnemy;
+
+
+    public int PunchLayerMask = ((1 << 9) | (1 << 12) | (1 << 14));
     #endregion
     #endregion
 
@@ -130,10 +133,12 @@ public class Player : SingletonPattern<Player>
         if (!IsLurching && Input.GetMouseButtonDown(1))
         {
             ///Lurch forward
+            IsLurching = true;
+            StartCoroutine(Lurch());
         }
         else if (IsSucking && Input.GetMouseButtonUp(1))
         {
-            ///End the lurch early
+            ///End the suck early
         }
         else if (Input.GetMouseButtonDown(0) && IsAttacking == false)
         {
@@ -179,15 +184,22 @@ public class Player : SingletonPattern<Player>
         if (hit.collider == null) return;
 
         transform.LookAt(new Vector3(hit.point.x,
-                                                     transform.position.y,
-                                                     hit.point.z));
+                                     transform.position.y,
+                                     hit.point.z));
     }
 
     /// <summary>
     /// 
     /// </summary>
-    void Suck()
+    IEnumerator Suck()
     {
+        float startTime = Time.time;
+
+        while (Time.time - startTime < 3f)
+        {
+
+            yield return new WaitForFixedUpdate();
+        }
 
 
     }
@@ -208,62 +220,93 @@ public class Player : SingletonPattern<Player>
     IEnumerator Lurch()
     {
         Vector3 lurchEnd = playerTrans.position + transform.forward;
+        Vector3 heading = lurchEnd - playerTrans.position;
 
-        while (Vector3.Distance(playerTrans.position, lurchEnd) >= 0.1f)
+        while (Vector3.Distance(playerTrans.position, lurchEnd) >= 0.2f)
         {
-            playerRB.MovePosition(playerTrans.position + lurchEnd * speed * Time.deltaTime);
+
+            playerRB.MovePosition(playerTrans.position + heading.normalized * speed * Time.deltaTime);
             yield return new WaitForFixedUpdate();
         }
+
+        yield return new WaitForFixedUpdate();
+        IsLurching = false;
     }
 
 
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log(other.name);
-
-        if (other.gameObject.layer != 12 && other.gameObject.layer != 14) return;
-        
-        //Debug.Log("Trigger hit the shit.");
-
-        if(other.GetComponent<Rigidbody>() != null)
+        if (IsLurching && other.gameObject.layer == 9)
         {
-            Rigidbody punchedObj = other.GetComponent<Rigidbody>();
+            suckedEnemy = other.gameObject;
+            StartCoroutine(Suck());
 
-            Vector3 startVector = transform.forward;
+        }
+        else if (IsAttacking)
+        {
+            PunchLogic(other);
+        }
+    }
 
-            //Debug.Log(startVector.ToString());
+    private void PunchLogic(Collider other)
+    {
+        ///Sanity check just in case
+        ///
+        //Debug.Log(other.gameObject.layer);
+        //Debug.Log(PunchLayerMask);
+        if ((
+                other.gameObject.layer != 9
+                || other.gameObject.layer != 12
+                || other.gameObject.layer != 14
+            )
+            && other.gameObject.GetComponent<Rigidbody>() == null) return;
+        
+        Rigidbody punchedObj = other.GetComponent<Rigidbody>();
+        
+        Vector3 startVector = transform.forward;
 
-            Vector3 punchDir = new Vector3(startVector.x, startVector.y += .5f, startVector.z);
+        //Debug.Log(startVector.ToString());
 
-            //Debug.Log("Punch direction is: (" + punchDir.x + ", " + punchDir.y + ", " + punchDir.z + ")");
-            
-            if (other.gameObject.layer == 14)
+        Vector3 punchDir = new Vector3(startVector.x, startVector.y += .5f, startVector.z);
+
+        //Debug.Log("Punch direction is: (" + punchDir.x + ", " + punchDir.y + ", " + punchDir.z + ")");
+        
+        ///Punched a punchable parent obj
+        if (other.gameObject.layer == 14)
+        {
+            List<GameObject> punchedChildren = new List<GameObject>();
+
+            foreach (Transform child in punchedObj.transform)
             {
-                List<GameObject> punchedChildren = new List<GameObject>();
-
-                foreach (Transform child in punchedObj.transform)
-                {
-                    child.GetComponent<Collider>().enabled = true;
-                    child.GetComponent<Rigidbody>().isKinematic = false;
-                    child.GetComponent<Rigidbody>().useGravity = true;
-                    punchedChildren.Add(child.gameObject);
-                }
-
-                foreach (GameObject obj in punchedChildren)
-                {
-                    obj.transform.parent = null;
-                    obj.GetComponent<Rigidbody>().AddForce(punchDir.normalized * forceModifier);
-                }
-
-                Destroy(punchedObj.gameObject);
+                child.GetComponent<Collider>().enabled = true;
+                child.GetComponent<Rigidbody>().isKinematic = false;
+                child.GetComponent<Rigidbody>().useGravity = true;
+                punchedChildren.Add(child.gameObject);
             }
-            else
+
+            foreach (GameObject obj in punchedChildren)
             {
-                punchedObj.useGravity = true;
-                punchedObj.isKinematic = false;
-                punchedObj.AddForce(punchDir.normalized * forceModifier);
+                obj.transform.parent = null;
+                obj.GetComponent<Rigidbody>().AddForce(punchDir.normalized * forceModifier);
             }
 
+            Destroy(punchedObj.gameObject);
+        }
+        else
+        {
+            ///Punched a punchable obj or enemy
+
+            punchedObj.useGravity = true;
+            punchedObj.isKinematic = false;
+
+            if (punchedObj.gameObject.layer == 9)
+            {
+                Debug.Log("Punched enemy");
+                punchedObj.GetComponent<Enemy>().IsAttacked = true;
+            }
+
+            punchedObj.AddForce(punchDir.normalized * forceModifier);
         }
     }
 }

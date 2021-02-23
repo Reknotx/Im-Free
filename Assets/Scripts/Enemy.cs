@@ -9,9 +9,13 @@ public class Enemy : MonoBehaviour
     /// <summary> Flag to check if the enemy has ever seen the player. </summary>
     public bool SeenPlayer { get; set; } = false;
 
+    public bool IsAttacked{ get; set; } = false;
+    
     public void FixedUpdate()
     {
         if (!SeenPlayer) return;
+
+        if (IsAttacked) return;
 
         Flee();
     }
