@@ -23,6 +23,7 @@ public class UIManager : SingletonPattern<UIManager>
         base.Awake();
 
         deathFade.alpha = 0f;
+        deathFade.gameObject.SetActive(false);
 
     }
 
@@ -34,6 +35,8 @@ public class UIManager : SingletonPattern<UIManager>
 
     public void DeathFade()
     {
+        deathFade.gameObject.SetActive(true);
+
         LeanTween.alphaCanvas(deathFade, 1f, 1f);
     }
 

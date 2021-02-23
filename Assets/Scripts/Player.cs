@@ -211,10 +211,9 @@ public class Player : SingletonPattern<Player>
 
         while (Vector3.Distance(playerTrans.position, lurchEnd) >= 0.1f)
         {
+            playerRB.MovePosition(playerTrans.position + lurchEnd * speed * Time.deltaTime);
             yield return new WaitForFixedUpdate();
         }
-
-
     }
 
 
