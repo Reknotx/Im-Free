@@ -7,8 +7,11 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     /// <summary> Flag to check if the enemy has ever seen the player. </summary>
+    /// <value>A value of true means the enemy has seen the player and will now flee. </value>
     public bool SeenPlayer { get; set; } = false;
 
+    /// <summary> Flag to check if the enemy has ever been attacked by the player. </summary>
+    /// <value>A value of true means the enemy has been attacked.</value>
     public bool IsAttacked{ get; set; } = false;
     
     public void FixedUpdate()

@@ -31,6 +31,9 @@ public class Player : SingletonPattern<Player>
     [Tooltip("The force at which objects are punched.")]
     [Range(500, 1500)]
     public float forceModifier = 500f;
+
+
+    public float suckDuration = 3f;
     #endregion
 
     #region Private
@@ -41,7 +44,7 @@ public class Player : SingletonPattern<Player>
     Vector3 forward, right;
 
     /// <summary> The private field of the player's health. </summary>
-    private float _health = 100f;
+    private float _health = 10f;
 
     public GameObject suckedEnemy;
 
@@ -51,17 +54,7 @@ public class Player : SingletonPattern<Player>
     #endregion
 
     #region Properties
-    /// <summary> Is the player attacking. </summary>
-    /// <value> A value of true indicates the player is attacking. </value>
-    private bool IsAttacking { get; set; } = false;
-
-    /// <summary> Is the player lurching. </summary>
-    /// <value> A value of true indicates the player is lurching forward. </value>
-    private bool IsLurching { get; set; } = false;
-
-    /// <summary> Is the player sucking an enemy. </summary>
-    /// <value> A value of true indicates the player is sucking an enemy currently.</value>
-    private bool IsSucking { get; set; } = false;
+    #region Public
 
     /// <summary> The player's current health </summary>
     public float Health
@@ -70,6 +63,8 @@ public class Player : SingletonPattern<Player>
         set
         {
             _health = value;
+
+            _health = Mathf.Clamp(_health, 0f, 100f);
 
             UIManager.Instance.UpdateHealth();
 
@@ -82,9 +77,25 @@ public class Player : SingletonPattern<Player>
         }
     }
 
+    #endregion
+
+    #region Private
+    /// <summary> Is the player attacking. </summary>
+    /// <value> A value of true indicates the player is attacking. </value>
+    private bool IsAttacking { get; set; } = false;
+
+    /// <summary> Is the player lurching. </summary>
+    /// <value> A value of true indicates the player is lurching forward. </value>
+    private bool IsLurching { get; set; } = false;
+
+    /// <summary> Is the player sucking an enemy. </summary>
+    /// <value> A value of true indicates the player is sucking an enemy currently.</value>
+    private bool IsSucking { get; set; } = false;
+
     /// <summary> Flag for if the player is dead or alive. </summary>
     /// <value>The value is true if the player's health is at or below zero.</value>
     private bool IsDead { get; set; } = false;
+    #endregion
     #endregion
 
     protected override void Awake()
@@ -132,13 +143,24 @@ public class Player : SingletonPattern<Player>
 
         if (!IsLurching && Input.GetMouseButtonDown(1))
         {
+            Debug.Log("lurch");
             ///Lurch forward
             IsLurching = true;
             StartCoroutine(Lurch());
         }
         else if (IsSucking && Input.GetMouseButtonUp(1))
         {
+            Debug.Log("suck");
             ///End the suck early
+            IsSucking = false;
+            //StopCoroutine(Suck());
+            //StopCoroutine("Suck");
+            StopAllCoroutines();
+            if (suckedEnemy != null)
+            {
+                Destroy(suckedEnemy);
+            }
+
         }
         else if (Input.GetMouseButtonDown(0) && IsAttacking == false)
         {
@@ -193,14 +215,33 @@ public class Player : SingletonPattern<Player>
     /// </summary>
     IEnumerator Suck()
     {
-        float startTime = Time.time;
+        float timeStart = Time.time;
 
-        while (Time.time - startTime < 3f)
+        bool sucking = true;
+
+        float p0 = Health;
+        float p1 = Health + 30f;
+        float p01 = 0;
+
+        while (sucking)
         {
+            float u = (Time.time - timeStart) / suckDuration;
+
+            if (u >= 1)
+            {
+                u = 1;
+                sucking = false;
+            }
+
+            p01 = (1 - u) * p0 + u * p1;
+
+            Health = p01;
 
             yield return new WaitForFixedUpdate();
         }
 
+        IsSucking = false;
+        Destroy(suckedEnemy);
 
     }
 
@@ -219,27 +260,49 @@ public class Player : SingletonPattern<Player>
 
     IEnumerator Lurch()
     {
-        Vector3 lurchEnd = playerTrans.position + transform.forward;
-        Vector3 heading = lurchEnd - playerTrans.position;
+        attackZone.SetActive(true);
+        Vector3 p0 = playerTrans.position;
+        Vector3 p1 = playerTrans.position + transform.forward;
+        Vector3 p01;
+        Vector3 heading = p1 - playerTrans.position;
 
-        while (Vector3.Distance(playerTrans.position, lurchEnd) >= 0.2f)
+        bool moving = true;
+
+        float timeStart = Time.time;
+
+        while (moving)
         {
+            float u = (Time.time - timeStart) / .1f;
 
-            playerRB.MovePosition(playerTrans.position + heading.normalized * speed * Time.deltaTime);
+            if (u >= 1)
+            {
+                u = 1;
+                moving = false;
+            }
+
+            p01 = (1 - u) * p0 + u * p1;
+
+            playerRB.position = p01;
+
             yield return new WaitForFixedUpdate();
         }
 
-        yield return new WaitForFixedUpdate();
         IsLurching = false;
+        attackZone.SetActive(false);
     }
 
 
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log(other.name);
-        if (IsLurching && other.gameObject.layer == 9)
+        if (IsLurching && other.gameObject.layer == 9 && !IsSucking)
         {
+            Debug.Log("hit enemy in lurch");
+            IsLurching = false;
+            StopCoroutine(Lurch());
             suckedEnemy = other.gameObject;
+            other.GetComponent<Enemy>().IsAttacked = true;
+            IsSucking = true;
             StartCoroutine(Suck());
 
         }
