@@ -66,13 +66,13 @@ public class Player : SingletonPattern<Player>
 
             _health = Mathf.Clamp(_health, 0f, 100f);
 
-            UIManager.Instance.UpdateHealth();
+            PlayerUIManager.Instance.UpdateHealth();
 
             if (_health <= 0f)
             {
                 IsDead = true;
 
-                UIManager.Instance.DeathFade();
+                PlayerUIManager.Instance.DeathFade();
             }
         }
     }

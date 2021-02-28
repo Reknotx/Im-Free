@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
-public class UIManager : SingletonPattern<UIManager>
+public class PlayerUIManager : SingletonPattern<PlayerUIManager>
 {
     #region Fields
     /// <summary> The slider that graphically represents the player's health. </summary>
@@ -28,10 +27,7 @@ public class UIManager : SingletonPattern<UIManager>
     }
 
     /// <summary> Updates the health slider to match the player's current health. </summary>
-    public void UpdateHealth()
-    {
-        healthSlider.value = Player.Instance.Health / 100f;
-    }
+    public void UpdateHealth() => healthSlider.value = Player.Instance.Health / 100f;
 
     public void DeathFade()
     {
@@ -40,17 +36,5 @@ public class UIManager : SingletonPattern<UIManager>
         LeanTween.alphaCanvas(deathFade, 1f, 1f);
     }
 
-    public void Reset()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    public void QuitApp()
-    {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #endif
-
-        Application.Quit();
-    }
+    
 }
