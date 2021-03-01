@@ -30,22 +30,14 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    /// <summary> Opens the options panel.</summary>
-    public void Options()
+    public void OpenMenu(string menuName)
     {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(false);
+        }
 
-    }
-
-    /// <summary> Opens the credits panel. </summary>
-    public void Credits()
-    {
-
-    }
-
-    /// <summary> Opens the achievements. </summary>
-    public void Achievements()
-    {
-
+        transform.Find(menuName).gameObject.SetActive(true);
     }
 
     /// <summary> Quits the game. </summary>
