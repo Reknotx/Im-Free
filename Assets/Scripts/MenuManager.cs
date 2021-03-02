@@ -5,25 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    
+
+    private void Awake()
+    {
+        Time.timeScale = 0f;
+    }
+
+
     /// <summary>Plays the game.</summary>
-    public void PlayGame(string sceneName)
+    public void PlayGame()
     {
-        SceneManager.LoadSceneAsync(sceneName);
+        Time.timeScale = 1f;
+
+        transform.Find("Main Menu").gameObject.SetActive(false);
     }
 
-    /// <summary> Pauses the game. </summary>
-    public void PauseGame()
-    {
-
-    }
-
-    /// <summary> Resumes the game. </summary>
-    public void ResumeGame()
-    {
-
-    }
-
+    
     /// <summary> Resets the game. </summary>
     public void ResetGame()
     {

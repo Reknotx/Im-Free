@@ -29,6 +29,7 @@ public class PlayerUIManager : SingletonPattern<PlayerUIManager>
     /// <summary> Updates the health slider to match the player's current health. </summary>
     public void UpdateHealth() => healthSlider.value = Player.Instance.Health / 100f;
 
+    /// <summary> Activates the death fade when the player's health reaches zero. </summary>
     public void DeathFade()
     {
         deathFade.gameObject.SetActive(true);
@@ -36,5 +37,15 @@ public class PlayerUIManager : SingletonPattern<PlayerUIManager>
         LeanTween.alphaCanvas(deathFade, 1f, 1f);
     }
 
-    
+    /// <summary> Pauses the game. </summary>
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+    }
+
+    /// <summary> Resumes the game. </summary>
+    public void ResumeGame()
+    {
+        Time.timeScale = 1f;
+    }
 }

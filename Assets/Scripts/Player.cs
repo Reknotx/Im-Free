@@ -44,7 +44,7 @@ public class Player : SingletonPattern<Player>
     Vector3 forward, right;
 
     /// <summary> The private field of the player's health. </summary>
-    private float _health = 10f;
+    private float _health = 100f;
 
     public GameObject suckedEnemy;
 
@@ -172,6 +172,7 @@ public class Player : SingletonPattern<Player>
         Health -= Time.deltaTime;
     }
 
+    #region Movement
     /// Author: Chase O'Connor
     /// Date: 2/1/2021
     /// <summary> Moves the player in an isometric fashion based on their input. </summary>
@@ -209,6 +210,7 @@ public class Player : SingletonPattern<Player>
                                      transform.position.y,
                                      hit.point.z));
     }
+    #endregion
 
     /// <summary>
     /// 
