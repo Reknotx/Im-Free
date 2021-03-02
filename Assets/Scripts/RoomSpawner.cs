@@ -21,13 +21,29 @@ public class RoomSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SpawnLevel();
 
-        while(spawnOrder.Count < (spawnableRooms.Count + spawnableCorridors.Count))
+        Debug.Log(spawnableRooms.Count + spawnableCorridors.Count);
+    }
+
+
+    void SpawnLevel()
+    {
+        DetermineOrder();
+
+        SpawnRooms()
+    }
+
+
+    void DetermineOrder()
+    {
+        Debug.Log("Determining order");
+        while (spawnOrder.Count < 4)
         {
             bool findingSpawn = true;
-            while(findingSpawn)
+            while (findingSpawn)
             {
-                
+
                 switch (spawning)
                 {
                     case Spawning.room:
@@ -41,7 +57,7 @@ public class RoomSpawner : MonoBehaviour
                         }
 
                         break;
-                    
+
                     case Spawning.corridor:
                         int corridorIndex = Random.Range(0, spawnableCorridors.Count);
 
@@ -52,11 +68,28 @@ public class RoomSpawner : MonoBehaviour
                             findingSpawn = false;
                         }
                         break;
-                    
-                    default:
-                        break;
                 }
             }
+        }
+    }
+
+    void SpawnRooms()
+    {
+        Debug.Log("Spawning rooms");
+        for (int i = 0; i < spawnOrder.Count; i++)
+        {
+            GameObject spawnable = (GameObject)spawnOrder[i];
+
+            GameObject spawned = Instantiate(spawnable);
+
+            Vector3 spawnPos;
+
+            if (i == 0) spawnPos = Vector3.zero;
+            else spawnPos = spawnOrder[i - 1].transform.Find("Room End").position;
+
+            spawned.transform.position = spawnPos;
+
+            spawnOrder.Add(spawned);
         }
     }
 
