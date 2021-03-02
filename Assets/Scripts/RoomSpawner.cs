@@ -31,7 +31,7 @@ public class RoomSpawner : MonoBehaviour
     {
         DetermineOrder();
 
-        SpawnRooms()
+        SpawnRooms();
     }
 
 
