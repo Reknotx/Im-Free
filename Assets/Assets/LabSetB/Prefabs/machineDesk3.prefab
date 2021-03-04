@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 5921171183846914301}
   - component: {fileID: 7836854310752822442}
   - component: {fileID: 2759201238582089463}
-  m_Layer: 0
+  - component: {fileID: 6418373895148531593}
+  - component: {fileID: 2419092550602910583}
+  m_Layer: 12
   m_Name: machineDesk3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,3 +81,32 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &6418373895148531593
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3804729005741819081}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 1.9869125, z: 1.0836723}
+  m_Center: {x: -1, y: 0.99345624, z: 0.54183614}
+--- !u!54 &2419092550602910583
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3804729005741819081}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
