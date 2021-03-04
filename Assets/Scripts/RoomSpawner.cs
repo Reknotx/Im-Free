@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class RoomSpawner : MonoBehaviour
 {
-    public List<GameObject> spawnableRooms = new List<GameObject>();
-    public List<GameObject> spawnableCorridors = new List<GameObject>();
-
-
-    public List<GameObject> spawnedObjs = new List<GameObject>();
+    public FloorInfo levels;
 
 
     enum Spawning
@@ -17,14 +13,26 @@ public class RoomSpawner : MonoBehaviour
         corridor
     }
 
+    private int index = 0;
+
+    public Transform lastEndPoint = null;
+
     private Spawning spawning = Spawning.room;
     
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(spawnableRooms.Count + spawnableCorridors.Count);
         SpawnLevel();
+    }
 
+
+    private void FixedUpdate()
+    {
+        if (lastEndPoint != null && Vector3.Distance(Player.Instance.transform.position, lastEndPoint.position) < 15)
+        {
+            Debug.Log("Success");
+            SpawnNext();
+        }
     }
 
 
@@ -39,20 +47,23 @@ public class RoomSpawner : MonoBehaviour
         void DetermineOrder()
         {
             Debug.Log("Determining order");
-            while (spawnOrder.Count < (spawnableCorridors.Count + spawnableRooms.Count))
+
+            List<GameObject> Rooms = levels.floorInfo[index].rooms;
+            List<GameObject> Corridors = levels.floorInfo[index].corridors;
+
+            while (spawnOrder.Count < (Rooms.Count + Corridors.Count))
             {
                 bool findingSpawn = true;
                 while (findingSpawn)
                 {
-
                     switch (spawning)
                     {
                         case Spawning.room:
-                            int roomIndex = Random.Range(0, spawnableRooms.Count);
+                            int roomIndex = Random.Range(0, Rooms.Count);
 
-                            if (!spawnOrder.Contains(spawnableRooms[roomIndex]))
+                            if (!spawnOrder.Contains(Rooms[roomIndex]))
                             {
-                                spawnOrder.Add(spawnableRooms[roomIndex]);
+                                spawnOrder.Add(Rooms[roomIndex]);
                                 spawning = Spawning.corridor;
                                 findingSpawn = false;
                             }
@@ -60,11 +71,11 @@ public class RoomSpawner : MonoBehaviour
                             break;
 
                         case Spawning.corridor:
-                            int corridorIndex = Random.Range(0, spawnableCorridors.Count);
+                            int corridorIndex = Random.Range(0, Corridors.Count);
 
-                            if (!spawnOrder.Contains(spawnableCorridors[corridorIndex]))
+                            if (!spawnOrder.Contains(Corridors[corridorIndex]))
                             {
-                                spawnOrder.Add(spawnableCorridors[corridorIndex]);
+                                spawnOrder.Add(Corridors[corridorIndex]);
                                 spawning = Spawning.room;
                                 findingSpawn = false;
                             }
@@ -77,6 +88,7 @@ public class RoomSpawner : MonoBehaviour
         void SpawnRooms()
         {
             Debug.Log("Spawning rooms");
+            List<GameObject> spawnedObjs = new List<GameObject>();
 
             foreach (GameObject item in spawnOrder)
             {
@@ -90,8 +102,21 @@ public class RoomSpawner : MonoBehaviour
 
                 Vector3 spawnPos;
 
-                if (i == 0) spawnPos = Vector3.zero; 
-                else spawnPos = spawnedObjs[i - 1].transform.Find("Room End").position;
+
+
+                if (lastEndPoint == null)
+                {
+                    //lastEndPoint = spawned.transform.Find("Room End");
+                    spawnPos = Vector3.zero;
+                }
+                else
+                {
+                    //if (i - 1 != -1) lastEndPoint = spawnedObjs[i - 1].transform.Find("Room End");
+
+                    spawnPos = lastEndPoint.position;
+                }
+
+                lastEndPoint = spawned.transform.Find("Room End");
 
                 spawned.transform.position = spawnPos;
 
@@ -101,11 +126,15 @@ public class RoomSpawner : MonoBehaviour
     }
 
 
-    
-
-    // Update is called once per frame
-    void Update()
+    public void SpawnNext()
     {
-        
+        index++;
+        if (index >= levels.floorInfo.Count)
+        {
+            index = 0;
+        }
+
+        SpawnLevel();
     }
+
 }
