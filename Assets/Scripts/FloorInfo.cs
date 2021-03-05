@@ -30,7 +30,6 @@ public class FloorInfo : ScriptableObject
 
     public List<LevelStuff> floorInfo = new List<LevelStuff>();
 
-
     public void GenerateCorridors(int index)
     {
         for (int i = 0; i < RCCount; i++)
@@ -38,6 +37,4 @@ public class FloorInfo : ScriptableObject
 
         }
     }
-
-
 }
