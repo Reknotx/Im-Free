@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 8780427854373453958}
   - component: {fileID: 2332894679636120661}
   - component: {fileID: 5310392609355215828}
-  m_Layer: 0
+  - component: {fileID: 4741976780694314237}
+  - component: {fileID: 8534016488716430212}
+  m_Layer: 12
   m_Name: cage_medium1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,3 +81,32 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &4741976780694314237
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6198354244666397304}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 1.3524363, z: 2}
+  m_Center: {x: -1, y: 0.67621815, z: 1}
+--- !u!54 &8534016488716430212
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6198354244666397304}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
