@@ -49,9 +49,9 @@ public class RoomSpawner : MonoBehaviour
             Debug.Log("Determining order");
 
             List<GameObject> Rooms = levels.floorInfo[index].rooms;
-            List<GameObject> Corridors = levels.floorInfo[index].corridors;
+            List<GameObject> Corridors = levels.floorInfo[index].corridorRooms;
 
-            while (spawnOrder.Count < (Rooms.Count + Corridors.Count))
+            while (spawnOrder.Count < (Rooms.Count + (levels.RCCount * 5)))
             {
                 bool findingSpawn = true;
                 while (findingSpawn)
@@ -71,14 +71,13 @@ public class RoomSpawner : MonoBehaviour
                             break;
 
                         case Spawning.corridor:
-                            int corridorIndex = Random.Range(0, Corridors.Count);
-
-                            if (!spawnOrder.Contains(Corridors[corridorIndex]))
+                            for (int i = 0; i < 5; i++)
                             {
+                                int corridorIndex = Random.Range(0, Corridors.Count); 
                                 spawnOrder.Add(Corridors[corridorIndex]);
-                                spawning = Spawning.room;
-                                findingSpawn = false;
                             }
+                            spawning = Spawning.room;
+                            findingSpawn = false;
                             break;
                     }
                 }

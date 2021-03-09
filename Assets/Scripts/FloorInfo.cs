@@ -16,8 +16,6 @@ public struct LevelStuff
     [Tooltip("The list of room prefabs that are used in corridors for this level theme.")]
     /// <summary> The list of room prefabs that are used in corridors for this level theme. </summary>
     public List<GameObject> corridorRooms;
-
-    [HideInInspector] public List<GameObject> corridors;
 }
 
 
@@ -32,9 +30,6 @@ public class FloorInfo : ScriptableObject
 
     public void GenerateCorridors(int index)
     {
-        for (int i = 0; i < RCCount; i++)
-        {
-
-        }
+        
     }
 }
