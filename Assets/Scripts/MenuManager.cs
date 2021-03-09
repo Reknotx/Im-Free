@@ -9,6 +9,8 @@ public class MenuManager : MonoBehaviour
     private void Awake()
     {
         Time.timeScale = 0f;
+        Application.targetFrameRate = Screen.currentResolution.refreshRate;
+
     }
 
 
