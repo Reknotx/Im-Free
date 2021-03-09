@@ -189,6 +189,8 @@ public class Player : SingletonPattern<Player>
         // we create a new vector that points in the appropriate direction with a length no greater than 1.0
         Vector3 heading = Vector3.Normalize(rightMovement + upMovement);
 
+        //Ray ray = Physics.Raycast(transform.position)
+
         if (IsAttacking)
             playerRB.MovePosition(playerTrans.position + heading * (speed * speedReducer) * Time.deltaTime);
         else
