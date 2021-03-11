@@ -52,6 +52,7 @@ public class MenuManager : MonoBehaviour
     /// <summary> Quits to main menu. </summary>
     public void QuitMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        //SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
