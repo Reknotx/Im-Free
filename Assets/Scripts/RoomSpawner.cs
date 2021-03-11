@@ -6,7 +6,7 @@ public class RoomSpawner : MonoBehaviour
 {
     public FloorInfo levels;
 
-
+    bool beenAroundBefore = false;
     enum Spawning
     {
         room,
@@ -63,17 +63,17 @@ public class RoomSpawner : MonoBehaviour
                     switch (spawning)
                     {
                         case Spawning.room:
-                            int roomIndex = Random.Range(0, Rooms.Count);
 
-                            if (levels.floorInfo[index].levelName == "Lab" && spawnOrder.Count == 0)
+                            if (levels.floorInfo[index].levelName == "Lab" && spawnOrder.Count == 0 && !beenAroundBefore)
                             {
                                 spawnOrder.Add(Rooms[0]);
                                 spawning = Spawning.corridor;
                                 findingSpawn = false;
 
                             }
-                            else if (!spawnOrder.Contains(Rooms[roomIndex]))
+                            else /*(!spawnOrder.Contains(Rooms[roomIndex]))*/
                             {
+                                int roomIndex = Random.Range(1, Rooms.Count);
                                 spawnOrder.Add(Rooms[roomIndex]);
                                 spawning = Spawning.corridor;
                                 findingSpawn = false;
@@ -138,6 +138,7 @@ public class RoomSpawner : MonoBehaviour
 
     public void SpawnNext()
     {
+        beenAroundBefore = true;
         index++;
         if (index >= levels.floorInfo.Count)
         {
