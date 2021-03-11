@@ -136,7 +136,7 @@ public class Player : SingletonPattern<Player>
 
     private void Update()
     {
-        if (IsDead) return;
+        if (Time.timeScale == 0f || IsDead) return;
         
         Rotate();
 
@@ -322,6 +322,14 @@ public class Player : SingletonPattern<Player>
         ///
         //Debug.Log(other.gameObject.layer);
         //Debug.Log(PunchLayerMask);
+        if (other.gameObject.layer == 15)
+        {
+            Destroy(other.gameObject);
+            return;
+        }
+
+
+
         if ((
                 other.gameObject.layer != 9
                 || other.gameObject.layer != 12

@@ -55,4 +55,10 @@ public class MenuManager : MonoBehaviour
         //SceneManager.LoadScene("MainMenu");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+    public void OpenSurvey(string surveyLink)
+    {
+        Application.OpenURL(surveyLink);
+
+    }
 }
