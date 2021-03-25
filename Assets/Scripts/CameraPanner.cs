@@ -12,8 +12,8 @@ public class CameraPanner : MonoBehaviour
     public Vector3 offset;
     private Vector3 baseOffset;
 
-    public float horizNeutZone = 5f, vertNeutZone = 5f;
-    public float offsetLimitX = 1f, offsetLimitZ = 1f;
+    public float horizNeutZone = 50f, vertNeutZone = 50f;
+    public float offsetLimitX = 3f, offsetLimitZ = 3f;
 
     private float origOffsetLimitX, origOffsetLimitZ;
 
@@ -36,7 +36,6 @@ public class CameraPanner : MonoBehaviour
     private void Update()
     {
         transform.position = playerObj.transform.position + Player.Instance.playerTrans.TransformPoint(offset);
-
 
         panCamera();
         //CameraMovement();
@@ -108,5 +107,15 @@ public class CameraPanner : MonoBehaviour
 
         return result;
     }
-
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Rect rect = new Rect(getScrnFrac(true, 2f) - getScrnFrac(true, horizNeutZone), getScrnFrac(false, 2f) - getScrnFrac(false, vertNeutZone),
+            (getScrnFrac(true, 2f) + getScrnFrac(true, horizNeutZone)) - (getScrnFrac(true, 2f) - getScrnFrac(true, horizNeutZone)),
+            (getScrnFrac(false, 2f) + getScrnFrac(false, vertNeutZone)) - (getScrnFrac(false, 2f) - getScrnFrac(false, vertNeutZone)));
+        UnityEditor.Handles.BeginGUI();
+        UnityEditor.Handles.DrawSolidRectangleWithOutline(rect, Color.clear, Color.red);
+        UnityEditor.Handles.EndGUI();
+    }
+#endif
 }
