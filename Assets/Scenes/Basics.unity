@@ -327,11 +327,11 @@ GameObject:
   - component: {fileID: 675615516}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &675615516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,8 +346,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panningSpeed: 5
   offset: {x: 0, y: 0, z: 0}
-  horizNeutZone: 5
-  vertNeutZone: 5
+  horizNeutZone: 6
+  vertNeutZone: 4
   offsetLimitX: 3
   offsetLimitZ: 3
   playerObj: {fileID: 743573317948241660}
@@ -1761,6 +1761,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 45
       objectReference: {fileID: 0}
+    - target: {fileID: 743573318646325415, guid: da2c411ac00d7ec45a1465c01806d7cf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 743573319078650437, guid: da2c411ac00d7ec45a1465c01806d7cf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1816,7 +1821,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8189736419784918638, guid: da2c411ac00d7ec45a1465c01806d7cf, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: da2c411ac00d7ec45a1465c01806d7cf, type: 3}
 --- !u!1 &743573317948241660 stripped
 GameObject:

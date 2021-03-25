@@ -108,6 +108,7 @@ public class Player : SingletonPattern<Player>
 
         // Set forward to equal the camera's forward vector
         forward = Camera.main.transform.forward;
+        Debug.Log(forward);
 
         // make sure y is 0
         forward.y = 0;
