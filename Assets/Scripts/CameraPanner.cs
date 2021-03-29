@@ -5,8 +5,13 @@ using UnityEngine;
 public class CameraPanner : MonoBehaviour
 {
     public float panningSpeed = 5f;
+    
+    /// <summary> The offset of the camera from the player. </summary>
     public Vector3 offset;
+    
+    /// <summary> The offset of the camera from the player at start. </summary>
     private Vector3 baseOffset;
+
 
     Vector3 forward, right;
 
@@ -22,23 +27,25 @@ public class CameraPanner : MonoBehaviour
 
     private void Start()
     {
+        #region Isometric stuff from player.
         // Set forward to equal the camera's forward vector
         forward = Camera.main.transform.forward;
 
         // make sure y is 0
-        forward.y = Camera.main.transform.position.y;
+        //forward.y = Camera.main.transform.position.y;
+        forward.y = 0;
 
         // make sure the length of vector is set to a max of 1.0
         forward = Vector3.Normalize(forward);
 
         // set the right-facing vector to be facing right relative to the camera's forward vector
         right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
+        #endregion
 
         if (playerObj == null)
             playerObj = Player.Instance.gameObject;
 
-        offset = transform.localPosition - Player.Instance.playerTrans.TransformPoint(playerObj.transform.position);
-        offset.y = Camera.main.transform.position.y;
+        offset = transform.localPosition - playerObj.transform.position;
         baseOffset = offset;
 
         origOffsetLimitX = offsetLimitX;
@@ -49,19 +56,11 @@ public class CameraPanner : MonoBehaviour
 
     private void Update()
     {
-        // Our right movement is based on the right vector, movement speed, and our GetAxis command. 
-        // We multiply by Time.deltaTime to make the movement smooth.
-        Vector3 rightMovement = right;
+        #region Isometric stuff from player
 
-        // Up movement uses the forward vector, movement speed, and the vertical axis inputs.
-        Vector3 upMovement = forward;
+        #endregion
 
-        // This creates our new direction. By combining our right and forward movements and normalizing them, 
-        // we create a new vector that points in the appropriate direction with a length no greater than 1.0
-        Vector3 heading = Vector3.Normalize(rightMovement + upMovement + offset);
-
-
-        transform.position = playerObj.transform.position + offset;
+        transform.localPosition = playerObj.transform.position + offset;
 
         PanCamera();
 
@@ -69,18 +68,31 @@ public class CameraPanner : MonoBehaviour
         offset.z = Mathf.Clamp(offset.z, baseOffset.z - offsetLimitZ, baseOffset.z + offsetLimitZ);
     }
 
+    /// <summary> Determines how far and in what direction the camera needs to move from the player. </summary>
     private void PanCamera()
     { 
         float xModifier = Mathf.Abs(Input.mousePosition.x - horizScrnFrac) / horizScrnFrac;
         float zModifier = Mathf.Abs(Input.mousePosition.y - vertScrnFrac) / vertScrnFrac;
 
+        // Our right movement is based on the right vector, movement speed, and our GetAxis command. 
+        // We multiply by Time.deltaTime to make the movement smooth.
+        Vector3 rightMovement = right * xModifier;
+
+        // Up movement uses the forward vector, movement speed, and the vertical axis inputs.
+        Vector3 upMovement = forward * zModifier;
+
+        // This creates our new direction. By combining our right and forward movements and normalizing them, 
+        // we create a new vector that points in the appropriate direction with a length no greater than 1.0
+        Vector3 heading = Vector3.Normalize(rightMovement + upMovement);
+
         if (Input.mousePosition.x < horizScrnFrac - GetScrnFrac(true, horizNeutZone))
         {
-            offset.x -= xModifier * panningSpeed * Time.deltaTime;
+            //offset.x -= xModifier * panningSpeed * Time.deltaTime;
+            offset -= heading * panningSpeed * Time.deltaTime;
         }
         else if (Input.mousePosition.x > horizScrnFrac + GetScrnFrac(true, horizNeutZone))
         {
-            offset.x += xModifier * panningSpeed * Time.deltaTime;
+            offset += heading * panningSpeed * Time.deltaTime;
         }
         else
         {
@@ -89,11 +101,12 @@ public class CameraPanner : MonoBehaviour
 
         if (Input.mousePosition.y < vertScrnFrac - GetScrnFrac(false, vertNeutZone))
         {
-            offset.z -= zModifier * panningSpeed * Time.deltaTime;
+            offset -= heading * panningSpeed * Time.deltaTime;
         }
         else if (Input.mousePosition.y > vertScrnFrac + GetScrnFrac(false, vertNeutZone))
         {
-            offset.z += zModifier * panningSpeed * Time.deltaTime;
+            offset += heading * panningSpeed * Time.deltaTime;
+            //offset.z += zModifier * panningSpeed * Time.deltaTime;
         }
         else
         {
