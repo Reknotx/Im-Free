@@ -8,6 +8,9 @@ public class CameraPanner : MonoBehaviour
     public Vector3 offset;
     private Vector3 baseOffset;
 
+    Vector3 forward, right;
+
+
     public float horizNeutZone = 6f, vertNeutZone = 4f;
     public float offsetLimitX = 3f, offsetLimitZ = 3f;
 
@@ -19,10 +22,23 @@ public class CameraPanner : MonoBehaviour
 
     private void Start()
     {
+        // Set forward to equal the camera's forward vector
+        forward = Camera.main.transform.forward;
+
+        // make sure y is 0
+        forward.y = Camera.main.transform.position.y;
+
+        // make sure the length of vector is set to a max of 1.0
+        forward = Vector3.Normalize(forward);
+
+        // set the right-facing vector to be facing right relative to the camera's forward vector
+        right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
+
         if (playerObj == null)
             playerObj = Player.Instance.gameObject;
 
         offset = transform.localPosition - Player.Instance.playerTrans.TransformPoint(playerObj.transform.position);
+        offset.y = Camera.main.transform.position.y;
         baseOffset = offset;
 
         origOffsetLimitX = offsetLimitX;
@@ -33,7 +49,19 @@ public class CameraPanner : MonoBehaviour
 
     private void Update()
     {
-        transform.position = playerObj.transform.position + Player.Instance.playerTrans.TransformPoint(offset);
+        // Our right movement is based on the right vector, movement speed, and our GetAxis command. 
+        // We multiply by Time.deltaTime to make the movement smooth.
+        Vector3 rightMovement = right;
+
+        // Up movement uses the forward vector, movement speed, and the vertical axis inputs.
+        Vector3 upMovement = forward;
+
+        // This creates our new direction. By combining our right and forward movements and normalizing them, 
+        // we create a new vector that points in the appropriate direction with a length no greater than 1.0
+        Vector3 heading = Vector3.Normalize(rightMovement + upMovement + offset);
+
+
+        transform.position = playerObj.transform.position + offset;
 
         PanCamera();
 
@@ -42,9 +70,7 @@ public class CameraPanner : MonoBehaviour
     }
 
     private void PanCamera()
-    {
-
-
+    { 
         float xModifier = Mathf.Abs(Input.mousePosition.x - horizScrnFrac) / horizScrnFrac;
         float zModifier = Mathf.Abs(Input.mousePosition.y - vertScrnFrac) / vertScrnFrac;
 

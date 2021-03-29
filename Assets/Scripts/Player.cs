@@ -34,6 +34,7 @@ public class Player : SingletonPattern<Player>
 
 
     public float suckDuration = 3f;
+
     #endregion
 
     #region Private
@@ -45,6 +46,8 @@ public class Player : SingletonPattern<Player>
 
     /// <summary> The private field of the player's health. </summary>
     private float _health = 100f;
+
+    private int _tranqDartStack = 0;
 
     public GameObject suckedEnemy;
 
@@ -77,6 +80,14 @@ public class Player : SingletonPattern<Player>
         }
     }
 
+    public int TranqDartStack
+    {
+        get => _tranqDartStack;
+        set
+        {
+            _tranqDartStack = Mathf.Clamp(value, 0, 4);
+        }
+    }
     #endregion
 
     #region Private
@@ -192,10 +203,13 @@ public class Player : SingletonPattern<Player>
 
         //Ray ray = Physics.Raycast(transform.position)
 
+        float tranqReducer = .2f * TranqDartStack;
+
+
         if (IsAttacking)
-            playerRB.MovePosition(playerTrans.position + heading * (speed * speedReducer) * Time.deltaTime);
+            playerRB.MovePosition(playerTrans.position + heading * ((speed * speedReducer) - ((speed * speedReducer) * tranqReducer)) * Time.deltaTime);
         else
-            playerRB.MovePosition(playerTrans.position + heading * speed * Time.deltaTime);
+            playerRB.MovePosition(playerTrans.position + heading * (speed - (speed * tranqReducer)) * Time.deltaTime);
 
     }
 
