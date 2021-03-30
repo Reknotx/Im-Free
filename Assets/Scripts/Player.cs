@@ -32,8 +32,11 @@ public class Player : SingletonPattern<Player>
     [Range(500, 1500)]
     public float forceModifier = 500f;
 
-
+    /// <summary> The duration that we suck an enemy for. </summary>
+    [Tooltip("The duration that we suck an enemy for.")]
     public float suckDuration = 3f;
+
+    public Transform dartHolder;
 
     #endregion
 
@@ -48,6 +51,8 @@ public class Player : SingletonPattern<Player>
     private float _health = 100f;
 
     private int _tranqDartStack = 0;
+
+    private float _tranqDartSlow = 0;
 
     public GameObject suckedEnemy;
 
@@ -86,6 +91,21 @@ public class Player : SingletonPattern<Player>
         set
         {
             _tranqDartStack = Mathf.Clamp(value, 0, 4);
+        }
+    }
+
+    public float TranqDartSlow
+    {
+        get
+        {
+            float total = 0f;
+
+            foreach (Transform dart in dartHolder)
+            {
+                total += dart.gameObject.GetComponent<Bullet>().decayValue;
+            }
+
+            return total;
         }
     }
     #endregion
@@ -133,6 +153,7 @@ public class Player : SingletonPattern<Player>
         attackZone.SetActive(false);
     }
 
+    #region Updates
     private void FixedUpdate()
     {
         if (IsLurching || IsSucking) return;
@@ -183,6 +204,7 @@ public class Player : SingletonPattern<Player>
 
         Health -= Time.deltaTime;
     }
+    #endregion
 
     #region Movement
     /// Author: Chase O'Connor
@@ -203,7 +225,8 @@ public class Player : SingletonPattern<Player>
 
         //Ray ray = Physics.Raycast(transform.position)
 
-        float tranqReducer = .2f * TranqDartStack;
+        //float tranqReducer = .2f * TranqDartStack;
+        float tranqReducer = Mathf.Clamp(TranqDartSlow, 0f, 0.8f);
 
 
         if (IsAttacking)
@@ -229,6 +252,7 @@ public class Player : SingletonPattern<Player>
     }
     #endregion
 
+    #region Attacks
     /// <summary>
     /// 
     /// </summary>
@@ -271,6 +295,22 @@ public class Player : SingletonPattern<Player>
     {
         attackZone.SetActive(true);
 
+        #region Dart Removal
+        TranqDartStack = 0;
+
+        List<Transform> dartsDestroy = new List<Transform>();
+
+        foreach (Transform darts in dartHolder)
+        {
+            dartsDestroy.Add(darts);
+        }
+
+        foreach (Transform dartTran in dartsDestroy)
+        {
+            Destroy(dartTran.gameObject);
+        }
+        #endregion
+
         yield return new WaitForSeconds(0.1f);
 
         attackZone.SetActive(false);
@@ -310,27 +350,6 @@ public class Player : SingletonPattern<Player>
         attackZone.SetActive(false);
     }
 
-
-    private void OnTriggerEnter(Collider other)
-    {
-        //Debug.Log(other.name);
-        if (IsLurching && other.gameObject.layer == 9 && !IsSucking)
-        {
-            Debug.Log("hit enemy in lurch");
-            IsLurching = false;
-            StopCoroutine(Lurch());
-            suckedEnemy = other.gameObject;
-            other.GetComponent<Enemy>().IsAttacked = true;
-            IsSucking = true;
-            StartCoroutine(Suck());
-
-        }
-        else if (IsAttacking)
-        {
-            PunchLogic(other);
-        }
-    }
-
     private void PunchLogic(Collider other)
     {
         ///Sanity check just in case
@@ -342,8 +361,6 @@ public class Player : SingletonPattern<Player>
             Destroy(other.gameObject);
             return;
         }
-
-
 
         if ((
                 other.gameObject.layer != 9
@@ -397,6 +414,27 @@ public class Player : SingletonPattern<Player>
             }
 
             punchedObj.AddForce(punchDir.normalized * forceModifier);
+        }
+    }
+    #endregion
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //Debug.Log(other.name);
+        if (IsLurching && other.gameObject.layer == 9 && !IsSucking)
+        {
+            Debug.Log("hit enemy in lurch");
+            IsLurching = false;
+            StopCoroutine(Lurch());
+            suckedEnemy = other.gameObject;
+            other.GetComponent<Enemy>().IsAttacked = true;
+            IsSucking = true;
+            StartCoroutine(Suck());
+
+        }
+        else if (IsAttacking)
+        {
+            PunchLogic(other);
         }
     }
 }
