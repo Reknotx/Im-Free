@@ -1142,7 +1142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1863312133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1155,7 +1155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf409c5db06ce5f42b6ed8fe6d6a3d82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 8593431828330877434, guid: 71aef98767fa2164c8466b6191237d75, type: 3}
+  bullet: {fileID: 5373361440986952072, guid: ff0484f513790304cab3b7fed24857df, type: 3}
 --- !u!54 &1863312134
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1697,6 +1697,11 @@ PrefabInstance:
     - target: {fileID: 4944310282739755039, guid: da2c411ac00d7ec45a1465c01806d7cf,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8775825194342222949, guid: da2c411ac00d7ec45a1465c01806d7cf,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
             moving = false;
             transform.parent = Player.Instance.transform;
             Player.Instance.TranqDartStack++;
-            GetComponent<SphereCollider>().enabled = false;
+            GetComponent<CapsuleCollider>().enabled = false;
             GetComponent<Rigidbody>().isKinematic = true;
         }
     }
