@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackingEnemy : MonoBehaviour
+public class AttackingEnemy : Enemy
 {
     public GameObject bullet;
 
@@ -13,7 +13,7 @@ public class AttackingEnemy : MonoBehaviour
     private void Update()
     {
 
-
+        if (!SeenPlayer) return;
         //Ray ray = Physics.Raycast()
 
         //if ()

@@ -10,6 +10,6 @@ public class FleeTriggerZone : MonoBehaviour
 
         Debug.Log("Spotted enemy: " + other.name);
 
-        other.GetComponent<Enemy>().SeenPlayer = true;
+        other.GetComponent<FleeingEnemy>().SeenPlayer = true;
     }
 }
