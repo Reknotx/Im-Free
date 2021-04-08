@@ -176,14 +176,14 @@ public class Player : SingletonPattern<Player>
 
         if (!IsLurching && Input.GetMouseButtonDown(1))
         {
-            Debug.Log("lurch");
+            //Debug.Log("lurch");
             ///Lurch forward
             IsLurching = true;
             StartCoroutine(Lurch());
         }
         else if (IsSucking && Input.GetMouseButtonUp(1))
         {
-            Debug.Log("suck");
+            //Debug.Log("suck");
             ///End the suck early
             IsSucking = false;
             //StopCoroutine(Suck());
@@ -413,6 +413,10 @@ public class Player : SingletonPattern<Player>
             {
                 Debug.Log("Punched enemy");
                 punchedObj.GetComponent<Enemy>().IsAttacked = true;
+            }
+            else
+            {
+                punchedObj.GetComponent<PunchableObj>().Punched();
             }
 
             punchedObj.AddForce(punchDir.normalized * forceModifier);

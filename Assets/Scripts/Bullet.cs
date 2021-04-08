@@ -73,6 +73,7 @@ public class Bullet : MonoBehaviour
         GetComponent<CapsuleCollider>().isTrigger = false;
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         gameObject.layer = 17;
+        GetComponent<Rigidbody>().AddForce(-transform.forward * 500);
 
         StartCoroutine(ShakeOffDespawn());
     }

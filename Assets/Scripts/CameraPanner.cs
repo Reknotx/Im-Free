@@ -130,15 +130,15 @@ public class CameraPanner : MonoBehaviour
 
 
 #if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Rect rect = new Rect(GetScrnFrac(true, 2f) - GetScrnFrac(true, horizNeutZone),
-                             GetScrnFrac(false, 2f) - GetScrnFrac(false, vertNeutZone),
-                             (GetScrnFrac(true, 2f) + GetScrnFrac(true, horizNeutZone)) - (GetScrnFrac(true, 2f) - GetScrnFrac(true, horizNeutZone)),
-                             (GetScrnFrac(false, 2f) + GetScrnFrac(false, vertNeutZone)) - (GetScrnFrac(false, 2f) - GetScrnFrac(false, vertNeutZone)));
-        UnityEditor.Handles.BeginGUI();
-        UnityEditor.Handles.DrawSolidRectangleWithOutline(rect, Color.clear, Color.red);
-        UnityEditor.Handles.EndGUI();
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Rect rect = new Rect(GetScrnFrac(true, 2f) - GetScrnFrac(true, horizNeutZone),
+    //                         GetScrnFrac(false, 2f) - GetScrnFrac(false, vertNeutZone),
+    //                         (GetScrnFrac(true, 2f) + GetScrnFrac(true, horizNeutZone)) - (GetScrnFrac(true, 2f) - GetScrnFrac(true, horizNeutZone)),
+    //                         (GetScrnFrac(false, 2f) + GetScrnFrac(false, vertNeutZone)) - (GetScrnFrac(false, 2f) - GetScrnFrac(false, vertNeutZone)));
+    //    UnityEditor.Handles.BeginGUI();
+    //    UnityEditor.Handles.DrawSolidRectangleWithOutline(rect, Color.clear, Color.red);
+    //    UnityEditor.Handles.EndGUI();
+    //}
 #endif
 }
