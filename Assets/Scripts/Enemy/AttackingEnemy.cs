@@ -14,6 +14,8 @@ public class AttackingEnemy : Enemy
     {
 
         if (!SeenPlayer) return;
+
+        if (IsAttacked) return;
         //Ray ray = Physics.Raycast()
 
         //if ()
