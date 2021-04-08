@@ -298,17 +298,19 @@ public class Player : SingletonPattern<Player>
         #region Dart Removal
         TranqDartStack = 0;
 
-        List<Transform> dartsDestroy = new List<Transform>();
+
+        List<Bullet> dartRemove = new List<Bullet>();
 
         foreach (Transform darts in dartHolder)
         {
-            dartsDestroy.Add(darts);
+            dartRemove.Add(darts.GetComponent<Bullet>());
         }
 
-        foreach (Transform dartTran in dartsDestroy)
+        foreach (Bullet dart in dartRemove)
         {
-            Destroy(dartTran.gameObject);
+            dart.GetComponent<Bullet>().ShakeOff();
         }
+        
         #endregion
 
         yield return new WaitForSeconds(0.1f);

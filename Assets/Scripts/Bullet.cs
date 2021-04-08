@@ -62,5 +62,24 @@ public class Bullet : MonoBehaviour
             yield return new WaitForFixedUpdate();
 
         }
+
+    }
+    public void ShakeOff()
+    {
+        transform.parent = null;
+        GetComponent<Rigidbody>().isKinematic = false;
+        GetComponent<Rigidbody>().useGravity = true;
+        GetComponent<CapsuleCollider>().enabled = true;
+        GetComponent<CapsuleCollider>().isTrigger = false;
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        gameObject.layer = 17;
+
+        StartCoroutine(ShakeOffDespawn());
+    }
+
+    IEnumerator ShakeOffDespawn()
+    {
+        yield return new WaitForSeconds(2f);
+        Destroy(gameObject);
     }
 }
