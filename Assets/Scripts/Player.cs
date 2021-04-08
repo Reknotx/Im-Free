@@ -409,7 +409,7 @@ public class Player : SingletonPattern<Player>
             punchedObj.useGravity = true;
             punchedObj.isKinematic = false;
 
-            if (punchedObj.gameObject.layer == 9)
+            if (punchedObj.gameObject.layer == 9 || punchedObj.gameObject.layer == 18)
             {
                 Debug.Log("Punched enemy");
                 punchedObj.GetComponent<Enemy>().IsAttacked = true;
