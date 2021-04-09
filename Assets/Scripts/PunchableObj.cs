@@ -19,7 +19,7 @@ public class PunchableObj : MonoBehaviour
 
     public void Punched()
     {
-        if (!BeenPunched) return;
+        if (BeenPunched) return;
 
         ScoreManager.Instance.AddScore((int)tier);
         BeenPunched = true;

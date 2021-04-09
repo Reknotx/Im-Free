@@ -29,21 +29,37 @@ public class ScoreManager : SingletonPattern<ScoreManager>
             _score = value;
             if (scoreText != null)
             {
-                scoreText.text = "Score: " + _score;
+                scoreText.text = _score.ToString(); ;
             }
         }
     }
 
+    private int _multiValue;
+
     /// <summary> The value of the current score multiplier. </summary>
-    public int MultiValue { get; set; }
+    public int MultiValue 
+    {
+        get => _multiValue;
+        set
+        {
+            _multiValue = value;
+            if (_multiValue == 1)
+            {
+                StartCoroutine(MultiplierDecay());
+            }
+
+            if (multiplierText != null)
+            {
+                multiplierText.text = _multiValue.ToString();
+            }
+        }
+    }
 
     public Text scoreText;
 
+    public Text multiplierText;
+
     public Slider multiplierSlider;
-
-    public GameObject ScoreMultiplierUI;
-
-    public Coroutine scoreMultiplierCR;
 
     protected override void Awake()
     {
@@ -56,7 +72,7 @@ public class ScoreManager : SingletonPattern<ScoreManager>
 
     public void AddScore(int score)
     {
-        if (scoreMultiplierCR == null) scoreMultiplierCR = StartCoroutine(MultiplierDecay());
+        //if (scoreMultiplierCR == null) scoreMultiplierCR = StartCoroutine(MultiplierDecay());
 
         timeStart = Time.time;
         timer = MAX_TIMER;
@@ -69,8 +85,6 @@ public class ScoreManager : SingletonPattern<ScoreManager>
     {
         bool decaying = true;
 
-        ScoreMultiplierUI.SetActive(true);
-
         while (decaying)
         {
             float u = (Time.time - timeStart) / timer;
@@ -81,14 +95,11 @@ public class ScoreManager : SingletonPattern<ScoreManager>
                 decaying = false;
             }
 
-            multiplierSlider.value = (1 - u) * 0 + u * multiplierSlider.maxValue;
+            multiplierSlider.value = (1 - u) * multiplierSlider.maxValue + u * 0;
 
             yield return new WaitForFixedUpdate();
         }
 
-
-        ScoreMultiplierUI.SetActive(false);
         MultiValue = 0;
-        scoreMultiplierCR = null;
     }
 }
