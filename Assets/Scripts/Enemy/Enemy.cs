@@ -6,6 +6,8 @@ using UnityEngine;
 /// <remarks>Handles all enemy logic, primarily the enemy running away from the player.</remarks>
 public class Enemy : MonoBehaviour
 {
+    public ParticleSystem bloodSplatter;
+
     private bool _isAttacked = false;
 
     /// <summary> Flag to check if the enemy has ever been attacked by the player. </summary>
@@ -19,6 +21,11 @@ public class Enemy : MonoBehaviour
             if (value)
             {
                 GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            }
+
+            if (bloodSplatter != null)
+            {
+                bloodSplatter.Play();
             }
         }
     }
