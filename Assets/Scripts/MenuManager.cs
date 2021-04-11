@@ -9,6 +9,8 @@ public class MenuManager : MonoBehaviour
     private void Awake()
     {
         Time.timeScale = 0f;
+        Application.targetFrameRate = Screen.currentResolution.refreshRate;
+
     }
 
 
@@ -50,6 +52,13 @@ public class MenuManager : MonoBehaviour
     /// <summary> Quits to main menu. </summary>
     public void QuitMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        //SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void OpenSurvey(string surveyLink)
+    {
+        Application.OpenURL(surveyLink);
+
     }
 }

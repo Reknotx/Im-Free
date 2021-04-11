@@ -6,7 +6,7 @@ public class RoomSpawner : MonoBehaviour
 {
     public FloorInfo levels;
 
-
+    bool beenAroundBefore = false;
     enum Spawning
     {
         room,
@@ -48,21 +48,32 @@ public class RoomSpawner : MonoBehaviour
         {
             Debug.Log("Determining order");
 
+            ///Determine the order of ALL themes right at the start
+            ///increase the index until we have gone through all the levels
+
             List<GameObject> Rooms = levels.floorInfo[index].rooms;
             List<GameObject> Corridors = levels.floorInfo[index].corridorRooms;
 
             while (spawnOrder.Count < (Rooms.Count + (levels.RCCount * 5)))
             {
                 bool findingSpawn = true;
+
                 while (findingSpawn)
                 {
                     switch (spawning)
                     {
                         case Spawning.room:
-                            int roomIndex = Random.Range(0, Rooms.Count);
 
-                            if (!spawnOrder.Contains(Rooms[roomIndex]))
+                            if (levels.floorInfo[index].levelName == "Lab" && spawnOrder.Count == 0 && !beenAroundBefore)
                             {
+                                spawnOrder.Add(Rooms[0]);
+                                spawning = Spawning.corridor;
+                                findingSpawn = false;
+
+                            }
+                            else /*(!spawnOrder.Contains(Rooms[roomIndex]))*/
+                            {
+                                int roomIndex = Random.Range(1, Rooms.Count);
                                 spawnOrder.Add(Rooms[roomIndex]);
                                 spawning = Spawning.corridor;
                                 findingSpawn = false;
@@ -73,7 +84,7 @@ public class RoomSpawner : MonoBehaviour
                         case Spawning.corridor:
                             for (int i = 0; i < 5; i++)
                             {
-                                int corridorIndex = Random.Range(0, Corridors.Count); 
+                                int corridorIndex = Random.Range(0, Corridors.Count);
                                 spawnOrder.Add(Corridors[corridorIndex]);
                             }
                             spawning = Spawning.room;
@@ -127,6 +138,7 @@ public class RoomSpawner : MonoBehaviour
 
     public void SpawnNext()
     {
+        beenAroundBefore = true;
         index++;
         if (index >= levels.floorInfo.Count)
         {

@@ -136,7 +136,7 @@ public class Player : SingletonPattern<Player>
 
     private void Update()
     {
-        if (IsDead) return;
+        if (Time.timeScale == 0f || IsDead) return;
         
         Rotate();
 
@@ -188,6 +188,8 @@ public class Player : SingletonPattern<Player>
         // This creates our new direction. By combining our right and forward movements and normalizing them, 
         // we create a new vector that points in the appropriate direction with a length no greater than 1.0
         Vector3 heading = Vector3.Normalize(rightMovement + upMovement);
+
+        //Ray ray = Physics.Raycast(transform.position)
 
         if (IsAttacking)
             playerRB.MovePosition(playerTrans.position + heading * (speed * speedReducer) * Time.deltaTime);
@@ -320,6 +322,14 @@ public class Player : SingletonPattern<Player>
         ///
         //Debug.Log(other.gameObject.layer);
         //Debug.Log(PunchLayerMask);
+        if (other.gameObject.layer == 15)
+        {
+            Destroy(other.gameObject);
+            return;
+        }
+
+
+
         if ((
                 other.gameObject.layer != 9
                 || other.gameObject.layer != 12
