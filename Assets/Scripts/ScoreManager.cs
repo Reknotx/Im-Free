@@ -84,6 +84,7 @@ public class ScoreManager : SingletonPattern<ScoreManager>
     IEnumerator MultiplierDecay()
     {
         bool decaying = true;
+        multiplierSlider.gameObject.SetActive(true);
 
         while (decaying)
         {
@@ -99,7 +100,7 @@ public class ScoreManager : SingletonPattern<ScoreManager>
 
             yield return new WaitForFixedUpdate();
         }
-
+        multiplierSlider.gameObject.SetActive(false);
         MultiValue = 0;
     }
 }

@@ -15,6 +15,8 @@ public class PlayerUIManager : SingletonPattern<PlayerUIManager>
 
     /// <summary> The canvas group for the death fade UI object. </summary>
     public CanvasGroup deathFade;
+
+    public Text healthText;
     #endregion
 
     protected override void Awake()
@@ -27,7 +29,14 @@ public class PlayerUIManager : SingletonPattern<PlayerUIManager>
     }
 
     /// <summary> Updates the health slider to match the player's current health. </summary>
-    public void UpdateHealth() => healthSlider.value = Player.Instance.Health / 100f;
+    public void UpdateHealth()
+    {
+        healthSlider.value = Player.Instance.Health / 100f;
+        if (healthText != null)
+        {
+            healthText.text = Mathf.FloorToInt(Player.Instance.Health) + "/100";
+        }
+    }
 
     /// <summary> Activates the death fade when the player's health reaches zero. </summary>
     public void DeathFade()

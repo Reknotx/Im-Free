@@ -17,16 +17,18 @@ public class Enemy : MonoBehaviour
         get => _isAttacked;
         set
         {
+            if (bloodSplatter != null && !_isAttacked)
+            {
+                bloodSplatter.Play();
+            }
+
             _isAttacked = true;
+
             if (value)
             {
                 GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             }
 
-            if (bloodSplatter != null)
-            {
-                bloodSplatter.Play();
-            }
         }
     }
     /// <summary> Flag to check if the enemy has ever seen the player. </summary>

@@ -15,11 +15,13 @@ public class PunchableObj : MonoBehaviour
     public ScoreTier tier = ScoreTier.Low;
 
     public bool BeenPunched { get; set; } = false;
+    public GameObject kapowPrefab;
 
-
-    public void Punched()
+    public virtual void Punched()
     {
         if (BeenPunched) return;
+
+        Instantiate(kapowPrefab, transform.position, Quaternion.identity);
 
         ScoreManager.Instance.AddScore((int)tier);
         BeenPunched = true;
