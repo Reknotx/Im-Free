@@ -19,6 +19,14 @@ public class ScoreManager : SingletonPattern<ScoreManager>
 
     private int _score;
 
+    public List<Sprite> multiSprites;
+
+    public Text scoreText;
+
+    public Image multiplierImage;
+
+    public Slider multiplierSlider;
+
     /// <summary> The player's current score. </summary>
     public int Score 
     {
@@ -42,24 +50,27 @@ public class ScoreManager : SingletonPattern<ScoreManager>
         get => _multiValue;
         set
         {
-            _multiValue = value;
+            _multiValue = Mathf.Clamp(value, 0, 5);
             if (_multiValue == 1)
             {
+                multiplierImage.gameObject.SetActive(true);
                 StartCoroutine(MultiplierDecay());
             }
-
-            if (multiplierText != null)
+            
+            if (_multiValue >= 1 && multiplierImage != null)
             {
-                multiplierText.text = _multiValue.ToString();
+                multiplierImage.sprite = multiSprites[_multiValue - 1];
             }
+            else if (_multiValue == 0)
+            {
+                multiplierImage.gameObject.SetActive(false);
+                multiplierImage.sprite = null;
+            }
+
         }
     }
 
-    public Text scoreText;
 
-    public Text multiplierText;
-
-    public Slider multiplierSlider;
 
     protected override void Awake()
     {

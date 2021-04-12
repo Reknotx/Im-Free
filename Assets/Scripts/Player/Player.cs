@@ -427,7 +427,7 @@ public class Player : SingletonPattern<Player>
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log(other.name);
-        if (IsLurching && other.gameObject.layer == 9 && !IsSucking)
+        if (IsLurching && (other.gameObject.layer == 9 || other.gameObject.layer == 18) && !IsSucking)
         {
             Debug.Log("hit enemy in lurch");
             IsLurching = false;
