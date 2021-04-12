@@ -6,6 +6,14 @@ public class ElectronicPunchableObj : PunchableObj
 {
     public ParticleSystem sparks;
 
+    private void Start()
+    {
+        if (sparks == null)
+        {
+            sparks = transform.GetChild(0).GetComponent<ParticleSystem>();
+        }
+    }
+
 
     public override void Punched()
     {
