@@ -51,7 +51,7 @@ public class ScoreManager : SingletonPattern<ScoreManager>
         set
         {
             _multiValue = Mathf.Clamp(value, 0, 5);
-            if (_multiValue == 1)
+            if (_multiValue == 2)
             {
                 multiplierImage.gameObject.SetActive(true);
                 StartCoroutine(MultiplierDecay());
@@ -61,23 +61,15 @@ public class ScoreManager : SingletonPattern<ScoreManager>
             {
                 multiplierImage.sprite = multiSprites[_multiValue - 1];
             }
-            else if (_multiValue == 0)
-            {
-                multiplierImage.gameObject.SetActive(false);
-                multiplierImage.sprite = null;
-            }
-
         }
     }
-
-
 
     protected override void Awake()
     {
         base.Awake();
 
         Score = 0;
-        MultiValue = 0;
+        MultiValue = 1;
         timer = MAX_TIMER;
     }
 
@@ -88,8 +80,8 @@ public class ScoreManager : SingletonPattern<ScoreManager>
         timeStart = Time.time;
         timer = MAX_TIMER;
 
-        MultiValue++;
         Score += score * MultiValue;
+        MultiValue++;
     }
 
     IEnumerator MultiplierDecay()
