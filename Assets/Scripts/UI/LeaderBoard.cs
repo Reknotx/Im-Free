@@ -5,10 +5,6 @@ using UnityEngine.UI;
 
 public class LeaderBoard : MonoBehaviour
 {
-
-
-
-
     public void TakeInitials()
     {
         

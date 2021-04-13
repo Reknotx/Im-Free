@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class ParticleDestroyer : MonoBehaviour
 {
-    private void OnParticleSystemStopped()
+    //private void OnParticleSystemStopped()
+    //{
+    //    Destroy(gameObject);
+    //}
+
+    private void Update()
     {
-        Destroy(gameObject);
+        if (GetComponent<ParticleSystem>().isStopped)
+        {
+            Destroy(gameObject);
+        }
     }
 }
