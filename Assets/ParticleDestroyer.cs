@@ -11,7 +11,7 @@ public class ParticleDestroyer : MonoBehaviour
 
     private void Update()
     {
-        if (GetComponent<ParticleSystem>().isStopped)
+        if (GetComponent<ParticleSystem>().isStopped)   
         {
             Destroy(gameObject);
         }
