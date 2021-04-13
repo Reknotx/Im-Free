@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7298683783130769277}
   - component: {fileID: 3365685417091115989}
   - component: {fileID: 5773903021929095523}
+  - component: {fileID: -7681140137100256825}
   m_Layer: 12
   m_Name: tubeRack
   m_TagString: Untagged
@@ -129,6 +130,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tier: 10
+  kapowPrefab: {fileID: 1139705691368486201, guid: 6c75e1d0b3400694c9f875650ce9e7b0,
+    type: 3}
+--- !u!114 &-7681140137100256825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7915095079568320463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 004bae2f18fedfe43821961ce68b8de9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tier: 10
+  kapowPrefab: {fileID: 0}
 --- !u!1001 &6377277381988803621
 PrefabInstance:
   m_ObjectHideFlags: 0
