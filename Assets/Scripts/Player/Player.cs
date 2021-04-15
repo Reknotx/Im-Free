@@ -156,6 +156,8 @@ public class Player : SingletonPattern<Player>
     #region Updates
     private void FixedUpdate()
     {
+        if (IsDead) return;
+
         if (IsLurching || IsSucking) return;
 
         if (Input.GetKey(KeyCode.W)
