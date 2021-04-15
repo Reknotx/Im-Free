@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
             if (bloodSplatter != null && !_isAttacked)
             {
                 bloodSplatter.Play();
+                ScoreManager.Instance.AddScore(1000);
             }
 
             _isAttacked = true;
