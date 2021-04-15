@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9134978017783240010}
   - component: {fileID: 937024560842990945}
   - component: {fileID: 6721905482777273917}
+  - component: {fileID: 1028684301529585515}
   m_Layer: 12
   m_Name: railingSlopeBottom
   m_TagString: Untagged
@@ -110,3 +111,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.84930634, z: 0.049999997}
   m_Center: {x: 0, y: 0.42465317, z: 0.001879883}
+--- !u!114 &1028684301529585515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4258564923165374119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 004bae2f18fedfe43821961ce68b8de9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tier: 10
+  kapowPrefab: {fileID: 1139705691368486201, guid: 6c75e1d0b3400694c9f875650ce9e7b0,
+    type: 3}
