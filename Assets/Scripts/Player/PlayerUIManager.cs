@@ -17,6 +17,10 @@ public class PlayerUIManager : SingletonPattern<PlayerUIManager>
     public CanvasGroup deathFade;
 
     public Text healthText;
+
+    public List<Sprite> headSprites;
+
+    public Image headImage;
     #endregion
 
     protected override void Awake()
@@ -32,6 +36,21 @@ public class PlayerUIManager : SingletonPattern<PlayerUIManager>
     public void UpdateHealth()
     {
         healthSlider.value = Player.Instance.Health / 100f;
+
+        if (Player.Instance.Health >= 75)
+            headImage.sprite = headSprites[0];
+
+        else if (Player.Instance.Health >= 50)
+            headImage.sprite = headSprites[1];
+
+        else if (Player.Instance.Health >= 25)
+            headImage.sprite = headSprites[2];
+
+        else
+            headImage.sprite = headSprites[3];
+
+
+
         if (healthText != null)
         {
             healthText.text = Mathf.FloorToInt(Player.Instance.Health) + "/100";
@@ -57,4 +76,5 @@ public class PlayerUIManager : SingletonPattern<PlayerUIManager>
     {
         Time.timeScale = 1f;
     }
+
 }
