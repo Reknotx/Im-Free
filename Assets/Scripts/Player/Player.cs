@@ -38,6 +38,8 @@ public class Player : SingletonPattern<Player>
 
     public Transform dartHolder;
 
+    public Animator animController;
+
     #endregion
 
     #region Private
@@ -163,7 +165,12 @@ public class Player : SingletonPattern<Player>
             || Input.GetKey(KeyCode.A)
             || Input.GetKey(KeyCode.D))
         {
+            animController.SetBool("IsWalking", true);
             Move();
+        }
+        else
+        {
+            animController.SetBool("IsWalking", false);
         }
     }
 
@@ -295,6 +302,8 @@ public class Player : SingletonPattern<Player>
     {
         attackZone.SetActive(true);
 
+        //animController.SetTrigger("CastAttack");
+
         #region Dart Removal
         TranqDartStack = 0;
 
@@ -322,6 +331,7 @@ public class Player : SingletonPattern<Player>
     IEnumerator Lurch()
     {
         attackZone.SetActive(true);
+        animController.SetTrigger("CastLurch");
         Vector3 p0 = playerTrans.position;
         Vector3 p1 = playerTrans.position + transform.forward;
         Vector3 p01;
