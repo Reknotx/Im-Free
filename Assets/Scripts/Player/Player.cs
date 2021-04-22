@@ -82,7 +82,12 @@ public class Player : SingletonPattern<Player>
             {
                 IsDead = true;
 
+                animController.SetBool("IsWalking", false);
+                animController.SetBool("IsDead", true);
+
                 PlayerUIManager.Instance?.DeathFade();
+
+                LeaderBoard.Instance.GameOver(ScoreManager.Instance.Score);
             }
         }
     }

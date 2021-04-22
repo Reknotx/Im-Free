@@ -15,6 +15,7 @@ using UnityEngine.UI;
 public struct LeaderBoardInfo
 {
     public string posName;
+    public Text rankText;
     public Text initials;
     public Text scoreText;
 }
@@ -92,6 +93,7 @@ public class LeaderBoard : SingletonPattern<LeaderBoard>
     {
         if (!gettingInitials) return;
         initialField.characterLimit = 3;
+        initialField.Select();
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
