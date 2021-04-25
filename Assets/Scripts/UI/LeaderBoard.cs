@@ -87,6 +87,8 @@ public class LeaderBoard : SingletonPattern<LeaderBoard>
             }
         }
         initialField.text = "Enter your initials";
+
+        UpdateBoard();
     }
 
     private void Update()

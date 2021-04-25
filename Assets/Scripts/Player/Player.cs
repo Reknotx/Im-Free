@@ -50,7 +50,7 @@ public class Player : SingletonPattern<Player>
     Vector3 forward, right;
 
     /// <summary> The private field of the player's health. </summary>
-    private float _health = 100f;
+    private float _health = 10f;
 
     private int _tranqDartStack = 0;
 
@@ -84,6 +84,8 @@ public class Player : SingletonPattern<Player>
 
                 animController.SetBool("IsWalking", false);
                 animController.SetBool("IsDead", true);
+
+                animController.applyRootMotion = true;
 
                 PlayerUIManager.Instance?.DeathFade();
 
@@ -307,7 +309,8 @@ public class Player : SingletonPattern<Player>
     {
         attackZone.SetActive(true);
 
-        //animController.SetTrigger("CastAttack");
+        animController.SetTrigger("CastAttack");
+        //animController.applyRootMotion = true;
 
         #region Dart Removal
         TranqDartStack = 0;
@@ -331,6 +334,7 @@ public class Player : SingletonPattern<Player>
 
         attackZone.SetActive(false);
         IsAttacking = false;
+
     }
 
     IEnumerator Lurch()
