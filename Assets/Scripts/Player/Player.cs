@@ -56,10 +56,13 @@ public class Player : SingletonPattern<Player>
 
     private float _tranqDartSlow = 0;
 
-    public GameObject suckedEnemy;
+    private GameObject suckedEnemy;
 
 
-    public int PunchLayerMask = ((1 << 9) | (1 << 12) | (1 << 14));
+    private int PunchLayerMask = ((1 << 9) | (1 << 12) | (1 << 14));
+
+    [SerializeField]
+    private GameObject deathAnim;
     #endregion
     #endregion
 
@@ -81,6 +84,8 @@ public class Player : SingletonPattern<Player>
             if (_health <= 0f)
             {
                 IsDead = true;
+
+                deathAnim.SetActive(true);
 
                 animController.SetBool("IsWalking", false);
                 animController.SetBool("IsDead", true);
