@@ -50,7 +50,7 @@ public class Player : SingletonPattern<Player>
     Vector3 forward, right;
 
     /// <summary> The private field of the player's health. </summary>
-    private float _health = 10f;
+    private float _health = 100f;
 
     private int _tranqDartStack = 0;
 
