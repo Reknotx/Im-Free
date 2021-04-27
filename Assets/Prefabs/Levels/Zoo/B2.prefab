@@ -1009,7 +1009,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1189882661
 Transform:
   m_ObjectHideFlags: 0
@@ -1951,6 +1951,37 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!65 &8625618482090705536
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4482560496241330799}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 10, z: 20}
+  m_Center: {x: 0.55, y: 5, z: 0}
+--- !u!114 &1085522192697209703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4482560496241330799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3304eb2f7a3a4fe448e278a9e05c4ca8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 1
+  LabL: {fileID: 8428782116572143046, guid: 1003cd317a5665f418d392ba00b3b594, type: 3}
+  ZooL: {fileID: 1556647961775150393, guid: ffe085ef02be1fc469e78db549c300c7, type: 3}
+  MilitaryL: {fileID: 1968910678209629907, guid: 0dbd6dc0c7e69244bb6a523f599b2370,
+    type: 3}
+  ForestL: {fileID: 8423202088688214766, guid: 2a3dff468fd7e144e82efcece9827f30, type: 3}
 --- !u!1001 &6983353
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22033,6 +22064,12 @@ PrefabInstance:
 --- !u!4 &8291234820856157109 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4328282492530784653, guid: 3c3e57c562b98db4b82d0071eaa7349a,
+    type: 3}
+  m_PrefabInstance: {fileID: 5692910408297212472}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4482560496241330799 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8157152380694306903, guid: 3c3e57c562b98db4b82d0071eaa7349a,
     type: 3}
   m_PrefabInstance: {fileID: 5692910408297212472}
   m_PrefabAsset: {fileID: 0}
