@@ -50,7 +50,7 @@ public class Player : SingletonPattern<Player>
     Vector3 forward, right;
 
     /// <summary> The private field of the player's health. </summary>
-    private float _health = 10f;
+    private float _health = 100f;
 
     private int _tranqDartStack = 0;
 
@@ -170,7 +170,7 @@ public class Player : SingletonPattern<Player>
     #region Updates
     private void FixedUpdate()
     {
-        if (IsDead) return;
+        if (IsDead || Tutorial.Instance.gameObject.activeSelf) return;
 
         if (IsLurching || IsSucking) return;
 
@@ -190,14 +190,19 @@ public class Player : SingletonPattern<Player>
 
     private void Update()
     {
-        if (Time.timeScale == 0f || IsDead) return;
+        if (IsDead || Tutorial.Instance.gameObject.activeSelf) return;
         
-        Rotate();
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+            PauseMenu.Instance.gameObject.SetActive(!PauseMenu.Instance.gameObject.activeSelf);
+
+        if (Time.timeScale == 0f || PauseMenu.Instance.gameObject.activeSelf)
+            return;
+
+        Rotate();
 
         if (!IsLurching && Input.GetMouseButtonDown(1))
         {
-            //Debug.Log("lurch");
             ///Lurch forward
             IsLurching = true;
             StartCoroutine(Lurch());
@@ -207,9 +212,9 @@ public class Player : SingletonPattern<Player>
             //Debug.Log("suck");
             ///End the suck early
             IsSucking = false;
-            //StopCoroutine(Suck());
-            //StopCoroutine("Suck");
+
             StopAllCoroutines();
+
             if (suckedEnemy != null)
             {
                 Destroy(suckedEnemy);
@@ -244,9 +249,6 @@ public class Player : SingletonPattern<Player>
         // we create a new vector that points in the appropriate direction with a length no greater than 1.0
         Vector3 heading = Vector3.Normalize(rightMovement + upMovement);
 
-        //Ray ray = Physics.Raycast(transform.position)
-
-        //float tranqReducer = .2f * TranqDartStack;
         float tranqReducer = Mathf.Clamp(TranqDartSlow, 0f, 0.8f);
 
 
@@ -317,7 +319,6 @@ public class Player : SingletonPattern<Player>
         attackZone.SetActive(true);
 
         animController.SetTrigger("CastAttack");
-        //animController.applyRootMotion = true;
 
         #region Dart Removal
         TranqDartStack = 0;

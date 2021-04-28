@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenu : SingletonPattern<PauseMenu>
 {
-    public void ResumeGame()
+    protected override void Awake()
     {
-        Time.timeScale = 1f;
+        base.Awake();
+        gameObject.SetActive(false);
     }
 
     public void MainMenu()
@@ -21,5 +22,15 @@ public class PauseMenu : MonoBehaviour
 #endif
 
         Application.Quit();
+    }
+
+    private void OnEnable()
+    {
+        Time.timeScale = 0f;
+    }
+
+    private void OnDisable()
+    {
+        Time.timeScale = 1f;
     }
 }

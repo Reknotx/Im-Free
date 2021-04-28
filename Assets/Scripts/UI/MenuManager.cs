@@ -17,9 +17,12 @@ public class MenuManager : MonoBehaviour
     /// <summary>Plays the game.</summary>
     public void PlayGame()
     {
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
 
-        transform.Find("Main Menu").gameObject.SetActive(false);
+        //transform.Find("Main Menu").gameObject.SetActive(false);
+        Tutorial.Instance.gameObject.SetActive(true);
+        gameObject.SetActive(false);
+
     }
 
     
