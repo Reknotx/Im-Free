@@ -190,13 +190,17 @@ public class Player : SingletonPattern<Player>
 
     private void Update()
     {
-        if (IsDead || Tutorial.Instance.gameObject.activeSelf) return;
+        if (IsDead
+            || Tutorial.Instance.gameObject.activeSelf
+            /*|| MenuManager.Instance.gameObject.activeSelf*/) 
+            return;
         
 
         if (Input.GetKeyDown(KeyCode.Escape))
             PauseMenu.Instance.gameObject.SetActive(!PauseMenu.Instance.gameObject.activeSelf);
 
-        if (Time.timeScale == 0f || PauseMenu.Instance.gameObject.activeSelf)
+        if (Time.timeScale == 0f
+            || PauseMenu.Instance.gameObject.activeSelf)
             return;
 
         Rotate();
