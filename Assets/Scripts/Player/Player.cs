@@ -50,7 +50,7 @@ public class Player : SingletonPattern<Player>
     Vector3 forward, right;
 
     /// <summary> The private field of the player's health. </summary>
-    private float _health = 100f;
+    private float _health = 5f;
 
     private int _tranqDartStack = 0;
 
@@ -92,9 +92,9 @@ public class Player : SingletonPattern<Player>
 
                 animController.applyRootMotion = true;
 
-                PlayerUIManager.Instance?.DeathFade();
+                //PlayerUIManager.Instance?.DeathFade();
 
-                LeaderBoard.Instance.GameOver(ScoreManager.Instance.Score);
+                //LeaderBoard.Instance.GameOver(ScoreManager.Instance.Score);
             }
         }
     }
@@ -165,6 +165,8 @@ public class Player : SingletonPattern<Player>
         right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
 
         attackZone.SetActive(false);
+
+        deathAnim.SetActive(false);
     }
 
     #region Updates

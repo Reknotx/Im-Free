@@ -20,4 +20,11 @@ public class EventMessage : MonoBehaviour
         transform.localPosition = Vector3.zero;
         transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
     }
+
+    public void TriggerLeaderboardFade()
+    {
+        PlayerUIManager.Instance?.DeathFade();
+        LeaderBoard.Instance.GameOver(ScoreManager.Instance.Score);
+
+    }
 }
