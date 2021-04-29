@@ -194,7 +194,7 @@ public class Player : SingletonPattern<Player>
     {
         if (IsDead
             || Tutorial.Instance.gameObject.activeSelf
-            /*|| MenuManager.Instance.gameObject.activeSelf*/) 
+            || MenuManager.Instance.gameObject.activeSelf) 
             return;
         
 
