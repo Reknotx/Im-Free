@@ -15,11 +15,22 @@ public class Bullet : MonoBehaviour
     [Range(0.05f, 0.2f)]
     [HideInInspector] public float decayValue;
 
+    float spawnTime;
+    float lifespan = 5f;
+
+    private void Start()
+    {
+        spawnTime = Time.time;
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (!moving) return;
         GetComponent<Rigidbody>().MovePosition(transform.position + transform.forward * Time.deltaTime * 15f);
+
+        if (Time.time >= spawnTime + lifespan)
+            Destroy(gameObject);
 
     }
 

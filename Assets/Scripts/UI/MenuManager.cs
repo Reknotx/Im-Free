@@ -3,23 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MenuManager : MonoBehaviour
+public class MenuManager : SingletonPattern<MenuManager>
 {
 
-    private void Awake()
+    protected override void Awake()
     {
-        Time.timeScale = 0f;
+        base.Awake();
         Application.targetFrameRate = Screen.currentResolution.refreshRate;
 
     }
 
+    private void Start()
+    {
+        Time.timeScale = 0f;
+    }
 
     /// <summary>Plays the game.</summary>
     public void PlayGame()
     {
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
 
-        transform.Find("Main Menu").gameObject.SetActive(false);
+        //transform.Find("Main Menu").gameObject.SetActive(false);
+        Tutorial.Instance.gameObject.SetActive(true);
+        gameObject.SetActive(false);
+
     }
 
     

@@ -14,17 +14,21 @@ public class PlayerUIManager : SingletonPattern<PlayerUIManager>
     public Text scoreText;
 
     /// <summary> The canvas group for the death fade UI object. </summary>
-    public CanvasGroup deathFade;
+    public CanvasGroup leaderBoardFade;
 
     public Text healthText;
+
+    public List<Sprite> headSprites;
+
+    public Image headImage;
     #endregion
 
     protected override void Awake()
     {
         base.Awake();
 
-        deathFade.alpha = 0f;
-        deathFade.gameObject.SetActive(false);
+        leaderBoardFade.alpha = 0f;
+        leaderBoardFade.gameObject.SetActive(false);
 
     }
 
@@ -32,6 +36,21 @@ public class PlayerUIManager : SingletonPattern<PlayerUIManager>
     public void UpdateHealth()
     {
         healthSlider.value = Player.Instance.Health / 100f;
+
+        if (Player.Instance.Health >= 75)
+            headImage.sprite = headSprites[0];
+
+        else if (Player.Instance.Health >= 50)
+            headImage.sprite = headSprites[1];
+
+        else if (Player.Instance.Health >= 25)
+            headImage.sprite = headSprites[2];
+
+        else
+            headImage.sprite = headSprites[3];
+
+
+
         if (healthText != null)
         {
             healthText.text = Mathf.FloorToInt(Player.Instance.Health) + "/100";
@@ -41,9 +60,9 @@ public class PlayerUIManager : SingletonPattern<PlayerUIManager>
     /// <summary> Activates the death fade when the player's health reaches zero. </summary>
     public void DeathFade()
     {
-        deathFade.gameObject.SetActive(true);
+        leaderBoardFade.gameObject.SetActive(true);
 
-        LeanTween.alphaCanvas(deathFade, 1f, 1f);
+        LeanTween.alphaCanvas(leaderBoardFade, 1f, 1f);
     }
 
     /// <summary> Pauses the game. </summary>
@@ -57,4 +76,5 @@ public class PlayerUIManager : SingletonPattern<PlayerUIManager>
     {
         Time.timeScale = 1f;
     }
+
 }

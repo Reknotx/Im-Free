@@ -22,5 +22,12 @@ public class ElectronicPunchableObj : PunchableObj
         base.Punched();
 
         sparks.Play();
+        StartCoroutine(SparksTimer());
+    }
+
+    IEnumerator SparksTimer()
+    {
+        yield return new WaitForSeconds(5f);
+        sparks.Stop();
     }
 }

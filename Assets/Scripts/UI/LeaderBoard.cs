@@ -15,6 +15,7 @@ using UnityEngine.UI;
 public struct LeaderBoardInfo
 {
     public string posName;
+    public Text rankText;
     public Text initials;
     public Text scoreText;
 }
@@ -49,6 +50,8 @@ public class LeaderBoard : SingletonPattern<LeaderBoard>
     public Text FinalScoreText;
 
     public int initialsGoto = 0;
+
+    int newScore;
 
     protected override void Awake()
     {
@@ -86,16 +89,20 @@ public class LeaderBoard : SingletonPattern<LeaderBoard>
             }
         }
         initialField.text = "Enter your initials";
+
+        UpdateBoard();
     }
 
     private void Update()
     {
         if (!gettingInitials) return;
         initialField.characterLimit = 3;
+        initialField.Select();
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
             PlayerPrefs.SetString(boardInitialKeys[initialsGoto], initialField.text);
+            initialField.enabled = false;
             UpdateBoard();
         }
 
@@ -103,6 +110,7 @@ public class LeaderBoard : SingletonPattern<LeaderBoard>
 
     public void GameOver(int score)
     {
+        newScore = score;
         if (CheckForNewHighScore(score))
         {
             AddScoreToPrefs(initialsGoto, score);
@@ -158,6 +166,22 @@ public class LeaderBoard : SingletonPattern<LeaderBoard>
         {
             info.initials.text = PlayerPrefs.GetString(boardInitialKeys[index]);
             info.scoreText.text = PlayerPrefs.GetInt(boardScoreKeys[index]).ToString();
+
+            if (newScore != 0 && PlayerPrefs.GetInt(boardScoreKeys[index]) == newScore)
+            {
+                info.initials.color = new Color(255f / 255f,
+                                                211f / 255f,
+                                                30 / 255f);
+
+                info.scoreText.color = new Color(255f / 255f,
+                                                 211f / 255f,
+                                                 30 / 255f);
+
+                info.rankText.color = new Color(255f / 255f,
+                                                211f / 255f,
+                                                30 / 255f);
+            }
+
             index++;
         }
     }

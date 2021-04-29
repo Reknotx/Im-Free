@@ -38,6 +38,8 @@ public class Player : SingletonPattern<Player>
 
     public Transform dartHolder;
 
+    public Animator animController;
+
     #endregion
 
     #region Private
@@ -48,16 +50,19 @@ public class Player : SingletonPattern<Player>
     Vector3 forward, right;
 
     /// <summary> The private field of the player's health. </summary>
-    private float _health = 100f;
+    private float _health = 5f;
 
     private int _tranqDartStack = 0;
 
     private float _tranqDartSlow = 0;
 
-    public GameObject suckedEnemy;
+    private GameObject suckedEnemy;
 
 
-    public int PunchLayerMask = ((1 << 9) | (1 << 12) | (1 << 14));
+    private int PunchLayerMask = ((1 << 9) | (1 << 12) | (1 << 14));
+
+    [SerializeField]
+    private GameObject deathAnim;
     #endregion
     #endregion
 
@@ -80,7 +85,16 @@ public class Player : SingletonPattern<Player>
             {
                 IsDead = true;
 
-                PlayerUIManager.Instance?.DeathFade();
+                deathAnim.SetActive(true);
+
+                animController.SetBool("IsWalking", false);
+                animController.SetBool("IsDead", true);
+
+                animController.applyRootMotion = true;
+
+                //PlayerUIManager.Instance?.DeathFade();
+
+                //LeaderBoard.Instance.GameOver(ScoreManager.Instance.Score);
             }
         }
     }
@@ -151,11 +165,15 @@ public class Player : SingletonPattern<Player>
         right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
 
         attackZone.SetActive(false);
+
+        deathAnim.SetActive(false);
     }
 
     #region Updates
     private void FixedUpdate()
     {
+        if (IsDead || Tutorial.Instance.gameObject.activeSelf) return;
+
         if (IsLurching || IsSucking) return;
 
         if (Input.GetKey(KeyCode.W)
@@ -163,20 +181,34 @@ public class Player : SingletonPattern<Player>
             || Input.GetKey(KeyCode.A)
             || Input.GetKey(KeyCode.D))
         {
+            animController.SetBool("IsWalking", true);
             Move();
+        }
+        else
+        {
+            animController.SetBool("IsWalking", false);
         }
     }
 
     private void Update()
     {
-        if (Time.timeScale == 0f || IsDead) return;
+        if (IsDead
+            || Tutorial.Instance.gameObject.activeSelf
+            /*|| MenuManager.Instance.gameObject.activeSelf*/) 
+            return;
         
-        Rotate();
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+            PauseMenu.Instance.gameObject.SetActive(!PauseMenu.Instance.gameObject.activeSelf);
+
+        if (Time.timeScale == 0f
+            || PauseMenu.Instance.gameObject.activeSelf)
+            return;
+
+        Rotate();
 
         if (!IsLurching && Input.GetMouseButtonDown(1))
         {
-            //Debug.Log("lurch");
             ///Lurch forward
             IsLurching = true;
             StartCoroutine(Lurch());
@@ -186,9 +218,9 @@ public class Player : SingletonPattern<Player>
             //Debug.Log("suck");
             ///End the suck early
             IsSucking = false;
-            //StopCoroutine(Suck());
-            //StopCoroutine("Suck");
+
             StopAllCoroutines();
+
             if (suckedEnemy != null)
             {
                 Destroy(suckedEnemy);
@@ -223,9 +255,6 @@ public class Player : SingletonPattern<Player>
         // we create a new vector that points in the appropriate direction with a length no greater than 1.0
         Vector3 heading = Vector3.Normalize(rightMovement + upMovement);
 
-        //Ray ray = Physics.Raycast(transform.position)
-
-        //float tranqReducer = .2f * TranqDartStack;
         float tranqReducer = Mathf.Clamp(TranqDartSlow, 0f, 0.8f);
 
 
@@ -295,6 +324,8 @@ public class Player : SingletonPattern<Player>
     {
         attackZone.SetActive(true);
 
+        animController.SetTrigger("CastAttack");
+
         #region Dart Removal
         TranqDartStack = 0;
 
@@ -317,11 +348,13 @@ public class Player : SingletonPattern<Player>
 
         attackZone.SetActive(false);
         IsAttacking = false;
+
     }
 
     IEnumerator Lurch()
     {
         attackZone.SetActive(true);
+        animController.SetTrigger("CastLurch");
         Vector3 p0 = playerTrans.position;
         Vector3 p1 = playerTrans.position + transform.forward;
         Vector3 p01;
