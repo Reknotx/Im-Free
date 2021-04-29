@@ -10,9 +10,6 @@ public class PlayerUIManager : SingletonPattern<PlayerUIManager>
     [Tooltip("The slider that represents the player's health.")]
     public Slider healthSlider;
 
-    /// <summary> The text component displaying the player's score value. </summary>
-    public Text scoreText;
-
     /// <summary> The canvas group for the death fade UI object. </summary>
     public CanvasGroup leaderBoardFade;
 
