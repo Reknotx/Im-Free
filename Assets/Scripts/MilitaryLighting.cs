@@ -15,7 +15,10 @@ public class MilitaryLighting : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        LightScript.level = 3;
-        LightScript.Light();
+        if (LightScript.MilitaryOn == false)
+        {
+            LightScript.level = 3;
+            LightScript.Light();
+        }
     }
 }

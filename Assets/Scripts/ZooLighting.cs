@@ -15,7 +15,10 @@ public class ZooLighting : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        LightScript.level = 2;
-        LightScript.Light();
+        if (LightScript.ZooOn == false)
+        {
+            LightScript.level = 2;
+            LightScript.Light();
+        }
     }
 }

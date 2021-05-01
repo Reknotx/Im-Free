@@ -15,7 +15,10 @@ public class ForestLighting : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        LightScript.level = 4;
-        LightScript.Light();
+        if (LightScript.ForestOn == false)
+        {
+            LightScript.level = 4;
+            LightScript.Light();
+        }
     }
 }
