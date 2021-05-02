@@ -30,7 +30,7 @@ public class LightManager : MonoBehaviour
         level = 1;
         //Light();
         //LabL = GameObject.FindWithTag("LabLighting");
-        //DestroyScript = CurrentLight.GetComponent<Destroy>();
+        DestroyScript = CurrentLight.GetComponent<Destroy>();
     }
 
     //Func to check lighting when player collides
@@ -40,66 +40,65 @@ public class LightManager : MonoBehaviour
         {
             case 4:
                 print("Currenty in Forest Level");
-                MilitaryL = GameObject.FindWithTag("MilitaryLighting");
+                //MilitaryL = GameObject.FindWithTag("MilitaryLighting");
                 if (MilitaryOn == true)
                 {
-                    //DestroyScript.Delete();
+                    DestroyScript.Delete();
                     //Destroy(MilitaryL);
                     MilitaryOn = false;
-                    MilitaryL.SetActive(false);
+                    //MilitaryL.SetActive(false);
                     //Debug.Log("Passed through activeinHiearchy");
                 }
                 if (ForestOn == false)
                 {
                     ForestOn = true;
-                    Instantiate(ForestL);
-                    //CurrentLight = Instantiate(ForestL);
-                    //DestroyScript = CurrentLight.GetComponent<Destroy>();
+                    //Instantiate(ForestL);
+                    CurrentLight = Instantiate(ForestL);
+                    DestroyScript = CurrentLight.GetComponent<Destroy>();
                     //Debug.Log("Passed through Instantiate");
                 }
                 return;
             case 3:
                 print("Currenty in Military Level");
-                ZooL = GameObject.FindWithTag("ZooLighting");
+                //ZooL = GameObject.FindWithTag("ZooLighting");
                 if (ZooOn == true)
                 {
-                    //DestroyScript.Delete();
+                    DestroyScript.Delete();
                     //Destroy(ZooL);
                     ZooOn = false;
-                    ZooL.SetActive(false);
+                    //ZooL.SetActive(false);
                     //Debug.Log("Passed through activeinHiearchy");
                 }
                 if (MilitaryOn == false)
                 {
                     MilitaryOn = true;
-                    Instantiate(MilitaryL);
-                    //CurrentLight = Instantiate(MilitaryL);
-                    //DestroyScript = CurrentLight.GetComponent<Destroy>();
+                    //Instantiate(MilitaryL);
+                    CurrentLight = Instantiate(MilitaryL);
+                    DestroyScript = CurrentLight.GetComponent<Destroy>();
                     //Debug.Log("Passed through Instantiate");
                 }
                 return;
             case 2:
                 print("Currently in Zoo Level");
-                LabL = GameObject.FindWithTag("LabLighting");
+                //LabL = GameObject.FindWithTag("LabLighting");
                 if (LabOn == true)
                 {
-                    //DestroyScript.Delete();
+                    DestroyScript.Delete();
                     //Destroy(LabL);
                     LabOn = false;
-                    LabL.SetActive(false);
+                    //LabL.SetActive(false);
                 }
                 if (ZooOn == false)
                 {
                     ZooOn = true;
-                    Instantiate(ZooL);
-                    //CurrentLight = Instantiate(ZooL);
-                    //DestroyScript = CurrentLight.GetComponent<Destroy>();
+                    //Instantiate(ZooL);
+                    CurrentLight = Instantiate(ZooL);
+                    DestroyScript = CurrentLight.GetComponent<Destroy>();
                 }
                 return;
             case 1:
                 print("Currently in Lab Level");
                 //ForestL = GameObject.FindWithTag("ForestLighting");
-                /*
                 if (LabOn == false && ForestOn == true)
                 {
                     DestroyScript.Delete();
@@ -109,7 +108,6 @@ public class LightManager : MonoBehaviour
                     ForestOn = false;
                     //Debug.Log("Passed through activeinHiearchy");
                 }
-                */
                 return;
             default:
                 print("Error");
