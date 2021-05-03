@@ -9,6 +9,17 @@ public class AttackingEnemy : Enemy
     float shootDelay = 0.5f;
     float nextFire = 0.0f;
 
+    public override bool SeenPlayer
+    { 
+        get => base.SeenPlayer;
+        set
+        {
+            base.SeenPlayer = value;
+            animController.SetTrigger("CastAttack");
+        }
+            
+    }
+
 
     private void Update()
     {

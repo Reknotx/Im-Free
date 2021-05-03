@@ -139,10 +139,10 @@ public class RoomSpawner : MonoBehaviour
     public void SpawnNext()
     {
         beenAroundBefore = true;
-        index++;
-        if (index >= levels.floorInfo.Count)
+        
+        if (index != levels.floorInfo.Count - 1)
         {
-            index = 0;
+            index++;
         }
 
         SpawnLevel();

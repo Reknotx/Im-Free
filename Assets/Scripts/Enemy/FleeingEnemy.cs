@@ -24,4 +24,14 @@ public class FleeingEnemy : Enemy
 
         GetComponent<Rigidbody>().MovePosition(transform.position + heading.normalized * 5f * Time.deltaTime);
     }
+
+    public override bool SeenPlayer 
+    { 
+        get => base.SeenPlayer; 
+        set
+        {
+            base.SeenPlayer = value;
+            animController.SetTrigger("CastRun");
+        }
+    }
 }
