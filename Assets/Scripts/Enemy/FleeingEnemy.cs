@@ -23,6 +23,7 @@ public class FleeingEnemy : Enemy
         heading *= -1;
 
         GetComponent<Rigidbody>().MovePosition(transform.position + heading.normalized * 5f * Time.deltaTime);
+        //transform.LookAt(heading);
     }
 
     public override bool SeenPlayer 

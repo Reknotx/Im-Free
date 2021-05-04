@@ -9,6 +9,11 @@ public class EventMessage : MonoBehaviour
         
     }
 
+    public void ResetPos()
+    {
+        transform.localPosition = Vector3.zero;
+    }
+
     public void EnableRootMotion()
     {
         gameObject.GetComponent<Animator>().applyRootMotion = true;

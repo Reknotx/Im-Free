@@ -30,6 +30,7 @@ public class AttackingEnemy : Enemy
         //Ray ray = Physics.Raycast()
 
         //if ()
+        transform.LookAt(Player.Instance.transform.position);
 
         if (Time.time > nextFire)
         {
@@ -51,8 +52,9 @@ public class AttackingEnemy : Enemy
 
         //find delta from the launch pos to the mousePos3D
         Vector3 shootAngle = Player.Instance.transform.position - enemyPos;
+        Vector3 shootPos = new Vector3(transform.position.x, 1f, transform.position.z);
 
-        GameObject bull = Instantiate(bullet, transform.position, Quaternion.identity);
+        GameObject bull = Instantiate(bullet, shootPos, Quaternion.identity);
 
         bull.transform.LookAt(Player.Instance.gameObject.transform.position);
     }
