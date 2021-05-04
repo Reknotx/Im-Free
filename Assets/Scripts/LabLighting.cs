@@ -2,12 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LabLighting : LightManager
+public class LabLighting : MonoBehaviour
 {
+    GameObject LightM;
+    LightManager LightScript;
+    GameObject player;
+
+    private void Start()
+    {
+        LightM = GameObject.FindWithTag("LightManager");
+        LightScript = LightM.GetComponent<LightManager>();
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        level = 1;
+        /*if (LightScript.LabOn == false)
+        {
+            LightScript.level = 1;
+            LightScript.Light();
+        }
+        */
 
-        Light();
+        if (other.gameObject == player)
+        {
+            LightScript.level = 1;
+            LightScript.Light();
+        }
     }
 }

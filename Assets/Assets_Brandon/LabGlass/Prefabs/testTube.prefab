@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 4254888924895389182}
   - component: {fileID: 7871213429006185154}
   - component: {fileID: 1293131221935140227}
+  - component: {fileID: 2979589740837853801}
+  - component: {fileID: 3038833127726870323}
+  - component: {fileID: 8208995130835170130}
   m_Layer: 12
   m_Name: testTube
   m_TagString: Untagged
@@ -79,3 +82,47 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &2979589740837853801
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5872136924306906245}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.027529296, y: 0.21647826, z: 0.027529182}
+  m_Center: {x: -0.01475708, y: -0.055329587, z: -0.014756107}
+--- !u!54 &3038833127726870323
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5872136924306906245}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &8208995130835170130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5872136924306906245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 004bae2f18fedfe43821961ce68b8de9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tier: 10
+  kapowPrefab: {fileID: 1139705691368486201, guid: 6c75e1d0b3400694c9f875650ce9e7b0,
+    type: 3}

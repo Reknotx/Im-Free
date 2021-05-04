@@ -5,22 +5,32 @@ using UnityEngine;
 public class LightManager : MonoBehaviour
 {
     //Level Ref
-    public int level = 1;
+    public int level;
     //Lighting Prefabs Ref
     public GameObject LabL;
     public GameObject ZooL;
     public GameObject MilitaryL;
     public GameObject ForestL;
+    public GameObject CurrentLight;
     //Switches on func for prefabs to spawn if false, if true: does not spawn prefabs
-    public bool ZooOn = false;
-    public bool MilitaryOn = false;
-    public bool ForestOn = false;
+    public bool LabOn;
+    public bool ZooOn;
+    public bool MilitaryOn;
+    public bool ForestOn;
+
+    Destroy DestroyScript;
 
     //Activates Light Manager, Finds Lab Lighting to ref
     private void Start()
     {
-        Light();
-        LabL = GameObject.Find("LabLighting");
+        LabOn = true;
+        ZooOn = false;
+        MilitaryOn = false;
+        ForestOn = false;
+        level = 1;
+        //Light();
+        //LabL = GameObject.FindWithTag("LabLighting");
+        DestroyScript = CurrentLight.GetComponent<Destroy>();
     }
 
     //Func to check lighting when player collides
@@ -30,57 +40,75 @@ public class LightManager : MonoBehaviour
         {
             case 4:
                 print("Currenty in Forest Level");
-                //LabL.SetActive(false);
-                MilitaryL = GameObject.FindWithTag("MilitaryLighting");
-                if (MilitaryL.activeInHierarchy)
+                //MilitaryL = GameObject.FindWithTag("MilitaryLighting");
+                if (MilitaryOn == true)
                 {
-                    MilitaryL.SetActive(false);
+                    DestroyScript.Delete();
+                    //Destroy(MilitaryL);
+                    MilitaryOn = false;
+                    //MilitaryL.SetActive(false);
                     //Debug.Log("Passed through activeinHiearchy");
                 }
                 if (ForestOn == false)
                 {
                     ForestOn = true;
-                    Instantiate(ForestL);
+                    //Instantiate(ForestL);
+                    CurrentLight = Instantiate(ForestL);
+                    DestroyScript = CurrentLight.GetComponent<Destroy>();
                     //Debug.Log("Passed through Instantiate");
                 }
-                break;
+                return;
             case 3:
                 print("Currenty in Military Level");
-                //LabL.SetActive(false);
-                ZooL = GameObject.FindWithTag("ZooLighting");
-                if (ZooL.activeInHierarchy)
+                //ZooL = GameObject.FindWithTag("ZooLighting");
+                if (ZooOn == true)
                 {
-                    ZooL.SetActive(false);
+                    DestroyScript.Delete();
+                    //Destroy(ZooL);
+                    ZooOn = false;
+                    //ZooL.SetActive(false);
                     //Debug.Log("Passed through activeinHiearchy");
                 }
                 if (MilitaryOn == false)
                 {
                     MilitaryOn = true;
-                    Instantiate(MilitaryL);
+                    //Instantiate(MilitaryL);
+                    CurrentLight = Instantiate(MilitaryL);
+                    DestroyScript = CurrentLight.GetComponent<Destroy>();
                     //Debug.Log("Passed through Instantiate");
                 }
-                break;
+                return;
             case 2:
                 print("Currently in Zoo Level");
-                LabL = GameObject.Find("LabLighting");
-                if (LabL.activeInHierarchy)
+                //LabL = GameObject.FindWithTag("LabLighting");
+                if (LabOn == true)
                 {
-                    LabL.SetActive(false);
+                    DestroyScript.Delete();
+                    //Destroy(LabL);
+                    LabOn = false;
+                    //LabL.SetActive(false);
                 }
                 if (ZooOn == false)
                 {
                     ZooOn = true;
-                    Instantiate(ZooL);
+                    //Instantiate(ZooL);
+                    CurrentLight = Instantiate(ZooL);
+                    DestroyScript = CurrentLight.GetComponent<Destroy>();
                 }
-                break;
+                return;
             case 1:
                 print("Currently in Lab Level");
-                LabL = GameObject.Find("LabLighting");
-                if (LabL.activeInHierarchy == false)
+                //ForestL = GameObject.FindWithTag("ForestLighting");
+                if (LabOn == false && ForestOn == true)
                 {
-                    LabL.SetActive(true);
+                    DestroyScript.Delete();
+                    CurrentLight = Instantiate(LabL);
+                    DestroyScript = CurrentLight.GetComponent<Destroy>();
+                    LabOn = true;
+                    ForestOn = false;
+                    //Debug.Log("Passed through activeinHiearchy");
                 }
-                break;
+                return;
             default:
                 print("Error");
                 break;
