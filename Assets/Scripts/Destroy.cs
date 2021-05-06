@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class Destroy : MonoBehaviour
 {
-    public AudioClip clip;
+    public AudioClip musicClip;
+    public AudioClip sfxClip;
 
     void Start()
     {
-        Camera.main.GetComponent<AudioSource>().clip = clip;
+        AudioSources sources = new AudioSources();
+        sources.musicClip = musicClip;
+        sources.sfxClip = sfxClip;
+        AudioManager.Instance.ChangeTracks(sources);
     }
 
     public void Delete()

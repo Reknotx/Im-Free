@@ -8,6 +8,16 @@ using UnityEngine;
 /// <remarks>Handles movement, rotating the player, and all of their commands.</remarks>
 public class Player : SingletonPattern<Player>
 {
+    [System.Serializable]
+    public struct PlayerAudio
+    {
+        public AudioSource attackSound;
+        public AudioSource walkingSound;
+        public AudioSource lurchSound;
+        public AudioSource deathSound;
+    }
+
+
     #region Fields
     #region Public
     /// <summary> The attack zone of the player. </summary>
@@ -39,6 +49,8 @@ public class Player : SingletonPattern<Player>
     public Transform dartHolder;
 
     public Animator animController;
+
+    public PlayerAudio playerSources;
 
     #endregion
 
@@ -91,6 +103,7 @@ public class Player : SingletonPattern<Player>
                 animController.SetBool("IsDead", true);
 
                 animController.applyRootMotion = true;
+                playerSources.deathSound.Play();
 
                 //PlayerUIManager.Instance?.DeathFade();
 
@@ -182,11 +195,13 @@ public class Player : SingletonPattern<Player>
             || Input.GetKey(KeyCode.D))
         {
             animController.SetBool("IsWalking", true);
+            playerSources.walkingSound.Play();
             Move();
         }
         else
         {
             animController.SetBool("IsWalking", false);
+            playerSources.walkingSound.Stop();
         }
     }
 
@@ -326,6 +341,8 @@ public class Player : SingletonPattern<Player>
 
         animController.SetTrigger("CastAttack");
 
+        playerSources.attackSound.Play();
+
         #region Dart Removal
         TranqDartStack = 0;
 
@@ -355,6 +372,7 @@ public class Player : SingletonPattern<Player>
     {
         attackZone.SetActive(true);
         animController.SetTrigger("CastLurch");
+        playerSources.lurchSound.Play();
         Vector3 p0 = playerTrans.position;
         Vector3 p1 = playerTrans.position + transform.forward;
         Vector3 p01;
