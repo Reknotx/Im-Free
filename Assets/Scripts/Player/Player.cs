@@ -195,7 +195,10 @@ public class Player : SingletonPattern<Player>
             || Input.GetKey(KeyCode.D))
         {
             animController.SetBool("IsWalking", true);
-            playerSources.walkingSound.Play();
+            if (!playerSources.walkingSound.isPlaying)
+            {
+                playerSources.walkingSound.Play();
+            }
             Move();
         }
         else

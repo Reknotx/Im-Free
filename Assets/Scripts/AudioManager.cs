@@ -1,28 +1,80 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
-[System.Serializable]
-public struct AudioSources
+public class AudioManager : MonoBehaviour
 {
-    public AudioClip musicClip;
-    public AudioClip sfxClip;
-}
+    public static AudioManager Instance;
 
+    public AudioMixer mixer;
+    public AudioSetting[] audioSettings;
 
-public class AudioManager : SingletonPattern<AudioManager>
-{
-    public AudioSource music;
-    public AudioSource SFX;
+    private enum AudioGroups { Master, Music, SFX };
 
-    protected override void Awake()
+    void Awake()
     {
-        base.Awake();
+        if (Instance != null && Instance != this)
+        {
+            for (int i = 0; i < audioSettings.Length; i++)
+            {
+                audioSettings[i].Initialize();
+            }
+            this.enabled = false;
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
-    public void ChangeTracks(AudioSources sources)
+    void Start()
     {
-        music.clip = sources.musicClip;
-        SFX.clip = sources.sfxClip;
+        //if (Instance != this) return;
+        for (int i = 0; i < audioSettings.Length; i++)
+        {
+            audioSettings[i].Initialize();
+        }
+    }
+
+    public void SetMasterVolume(float value)
+    {
+        audioSettings[(int)AudioGroups.Master].SetExposedParam(value);
+    }
+
+    public void SetMusicVolume(float value)
+    {
+        audioSettings[(int)AudioGroups.Music].SetExposedParam(value);
+
+    }
+
+    public void SetSFXVolume(float value)
+    {
+        audioSettings[(int)AudioGroups.SFX].SetExposedParam(value);
+
+    }
+
+}
+
+[System.Serializable]
+public class AudioSetting
+{
+    [SerializeField]
+    private string groupName;
+    public Slider slider;
+    //public GameObject redX;
+    public string exposedParam;
+
+    public void Initialize()
+    {
+        slider.value = PlayerPrefs.GetFloat(exposedParam, 0);
+    }
+
+    public void SetExposedParam(float value) // 1
+    {
+        //redX.SetActive(value <= slider.minValue); // 2
+        AudioManager.Instance.mixer.SetFloat(exposedParam, value); // 3
+        PlayerPrefs.SetFloat(exposedParam, value); // 4
     }
 }
