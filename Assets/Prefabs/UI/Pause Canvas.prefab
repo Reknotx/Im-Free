@@ -1,5 +1,34 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &3066779318149580693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121430580744233707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_MethodName: PlayOneShot
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8300000, guid: 263ccdcf19413ad459613639afe7729e,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &8264300009253679493
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,6 +508,7 @@ GameObject:
   - component: {fileID: 8264300009476111194}
   - component: {fileID: 8264300009476111189}
   - component: {fileID: 8264300009476111188}
+  - component: {fileID: 3631004253419092145}
   m_Layer: 5
   m_Name: Options Button
   m_TagString: Untagged
@@ -608,6 +638,35 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &3631004253419092145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8264300009476111190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_MethodName: PlayOneShot
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8300000, guid: 263ccdcf19413ad459613639afe7729e,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &8264300009625629762
 GameObject:
   m_ObjectHideFlags: 0
@@ -986,6 +1045,7 @@ GameObject:
   - component: {fileID: 8264300009996706689}
   - component: {fileID: 8264300009996706688}
   - component: {fileID: 8264300009996706691}
+  - component: {fileID: 4394375082620536781}
   m_Layer: 5
   m_Name: Resume Button
   m_TagString: Untagged
@@ -1104,6 +1164,35 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4394375082620536781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8264300009996706813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_MethodName: PlayOneShot
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8300000, guid: 263ccdcf19413ad459613639afe7729e,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &8264300010013054638
 GameObject:
   m_ObjectHideFlags: 0
@@ -1158,6 +1247,7 @@ GameObject:
   - component: {fileID: 8264300010070504800}
   - component: {fileID: 8264300010070504803}
   - component: {fileID: 8264300010070504802}
+  - component: {fileID: 3969495121129825067}
   m_Layer: 5
   m_Name: Main Menu Button
   m_TagString: Untagged
@@ -1239,7 +1329,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1249,8 +1339,9 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: 2a50e9889c4e84048a4199a5df41ba82,
+      type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 02c296c470738df47af7293148c60316, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -1275,6 +1366,35 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3969495121129825067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8264300010070504796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_MethodName: PlayOneShot
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8300000, guid: 263ccdcf19413ad459613639afe7729e,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &8264300010183889820
 GameObject:
   m_ObjectHideFlags: 0
@@ -1600,6 +1720,7 @@ GameObject:
   - component: {fileID: 8264300010876907867}
   - component: {fileID: 8264300010876907866}
   - component: {fileID: 8264300010876907861}
+  - component: {fileID: 2817298871813532076}
   m_Layer: 5
   m_Name: Quit Game Button
   m_TagString: Untagged
@@ -1718,6 +1839,35 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2817298871813532076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8264300010876907863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_MethodName: PlayOneShot
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8300000, guid: 263ccdcf19413ad459613639afe7729e,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &8264300010958890940
 GameObject:
   m_ObjectHideFlags: 0
@@ -1730,6 +1880,7 @@ GameObject:
   - component: {fileID: 8264300010958890816}
   - component: {fileID: 8264300010958890819}
   - component: {fileID: 8264300010958890818}
+  - component: {fileID: 955973202713092186}
   m_Layer: 5
   m_Name: Controls Button
   m_TagString: Untagged
@@ -1859,6 +2010,35 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &955973202713092186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8264300010958890940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_MethodName: PlayOneShot
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8300000, guid: 263ccdcf19413ad459613639afe7729e,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &8264300010962542668
 GameObject:
   m_ObjectHideFlags: 0
@@ -2183,12 +2363,12 @@ PrefabInstance:
     - target: {fileID: 187227919007659835, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 187227919007659835, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 203723564392764378, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
@@ -2203,37 +2383,37 @@ PrefabInstance:
     - target: {fileID: 832937730894448796, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 832937730894448796, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1023034036335197441, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1023034036335197441, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3666920011945828512, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3666920011945828512, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3666920011945828512, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3700824218315115880, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
@@ -2258,17 +2438,17 @@ PrefabInstance:
     - target: {fileID: 3989688097411568957, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3989688097411568957, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3989688097411568957, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4301825568774525464, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
@@ -2333,7 +2513,7 @@ PrefabInstance:
     - target: {fileID: 4301825568774525465, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 4301825568774525465, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
@@ -2393,17 +2573,17 @@ PrefabInstance:
     - target: {fileID: 4320534147510181639, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4320534147510181639, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4320534147510181639, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4665864785032500944, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
@@ -2423,12 +2603,12 @@ PrefabInstance:
     - target: {fileID: 5553878044048135349, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5553878044048135349, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7209838669318637230, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
@@ -2443,17 +2623,17 @@ PrefabInstance:
     - target: {fileID: 8394677275720825993, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8394677275720825993, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8394677275720825993, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8981724680147109962, guid: 413c531eb96a12244bfa62091935ea6b,
         type: 3}
@@ -2467,15 +2647,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 413c531eb96a12244bfa62091935ea6b, type: 3}
+--- !u!1 &2656738209620532300 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4301825568774525466, guid: 413c531eb96a12244bfa62091935ea6b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2264614361020239446}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &2656738209620532303 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4301825568774525465, guid: 413c531eb96a12244bfa62091935ea6b,
     type: 3}
   m_PrefabInstance: {fileID: 2264614361020239446}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2656738209620532300 stripped
+--- !u!1 &121430580744233707 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 4301825568774525466, guid: 413c531eb96a12244bfa62091935ea6b,
+  m_CorrespondingSourceObject: {fileID: 2216596453747141821, guid: 413c531eb96a12244bfa62091935ea6b,
     type: 3}
   m_PrefabInstance: {fileID: 2264614361020239446}
   m_PrefabAsset: {fileID: 0}
