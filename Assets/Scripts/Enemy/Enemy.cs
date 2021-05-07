@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour
 
     private bool _isAttacked = false;
 
+    public AudioSource deathSound;
+
     /// <summary> Flag to check if the enemy has ever been attacked by the player. </summary>
     /// <value>A value of true means the enemy has been attacked.</value>
     public bool IsAttacked
