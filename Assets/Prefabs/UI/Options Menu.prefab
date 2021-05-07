@@ -784,6 +784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0461a1c7462d38941b5892ce4a258627, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mixer: {fileID: 24100000, guid: 2f07d999cb67bcb449c8c832a075d3d2, type: 2}
   audioSettings:
   - groupName: Master Volume
     slider: {fileID: 7138121143553704192}
@@ -794,7 +795,6 @@ MonoBehaviour:
   - groupName: SFX Volume
     slider: {fileID: 7645328642121023143}
     exposedParam: sfxVol
-  mixer: {fileID: 24100000, guid: 2f07d999cb67bcb449c8c832a075d3d2, type: 2}
 --- !u!1 &5238379119830964296
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,7 +1003,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2965457258661033468}
+        m_MethodName: SetWindowedMode
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &8642984151452797619
 GameObject:

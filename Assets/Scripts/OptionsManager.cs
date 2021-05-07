@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class AudioManager : MonoBehaviour
+public class OptionsManager : MonoBehaviour
 {
-    public static AudioManager Instance;
+    public static OptionsManager Instance;
 
     public AudioMixer mixer;
     public AudioSetting[] audioSettings;
@@ -55,6 +55,11 @@ public class AudioManager : MonoBehaviour
 
     }
 
+    public void SetWindowedMode(bool value)
+    {
+        Screen.fullScreen = value;
+    }
+
 }
 
 [System.Serializable]
@@ -74,7 +79,7 @@ public class AudioSetting
     public void SetExposedParam(float value) // 1
     {
         //redX.SetActive(value <= slider.minValue); // 2
-        AudioManager.Instance.mixer.SetFloat(exposedParam, value); // 3
+        OptionsManager.Instance.mixer.SetFloat(exposedParam, value); // 3
         PlayerPrefs.SetFloat(exposedParam, value); // 4
     }
 }
