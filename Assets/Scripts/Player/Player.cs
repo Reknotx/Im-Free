@@ -153,6 +153,8 @@ public class Player : SingletonPattern<Player>
     /// <summary> Flag for if the player is dead or alive. </summary>
     /// <value>The value is true if the player's health is at or below zero.</value>
     private bool IsDead { get; set; } = false;
+
+    private bool HasAttacked { get; set; }
     #endregion
     #endregion
 
@@ -185,9 +187,7 @@ public class Player : SingletonPattern<Player>
     #region Updates
     private void FixedUpdate()
     {
-        if (IsDead || Tutorial.Instance.gameObject.activeSelf) return;
-
-        if (IsLurching || IsSucking) return;
+        if (!HasAttacked || IsDead || Tutorial.Instance.gameObject.activeSelf || IsLurching || IsSucking) return;
 
         if (Input.GetKey(KeyCode.W)
             || Input.GetKey(KeyCode.S)
@@ -210,13 +210,20 @@ public class Player : SingletonPattern<Player>
 
     private void Update()
     {
+
         if (IsDead
             || Tutorial.Instance.gameObject.activeSelf
             || MenuManager.Instance.gameObject.activeSelf) 
             return;
         
+        if (Input.GetMouseButtonDown(0) && !HasAttacked)
+        {
+            HasAttacked = true;
+        }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (!HasAttacked) return;
+
+            if (Input.GetKeyDown(KeyCode.Escape))
             PauseMenu.Instance.gameObject.SetActive(!PauseMenu.Instance.gameObject.activeSelf);
 
         if (Time.timeScale == 0f

@@ -24,9 +24,10 @@ public class Enemy : MonoBehaviour
             {
                 bloodSplatter.Play();
                 ScoreManager.Instance.AddScore(1000);
+                deathSound.Play();
+                _isAttacked = true;
             }
 
-            _isAttacked = true;
 
             if (value)
             {
