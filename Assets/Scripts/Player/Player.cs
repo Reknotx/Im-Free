@@ -75,6 +75,9 @@ public class Player : SingletonPattern<Player>
 
     [SerializeField]
     private GameObject deathAnim;
+
+    [SerializeField]
+    private GameObject fleeZone;
     #endregion
     #endregion
 
@@ -219,11 +222,16 @@ public class Player : SingletonPattern<Player>
         if (Input.GetMouseButtonDown(0) && !HasAttacked)
         {
             HasAttacked = true;
+            if (AmbientAudioManager.Instance != null)
+            {
+                AmbientAudioManager.Instance.music.Play();
+            }
+            fleeZone.SetActive(true);
         }
 
         if (!HasAttacked) return;
 
-            if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
             PauseMenu.Instance.gameObject.SetActive(!PauseMenu.Instance.gameObject.activeSelf);
 
         if (Time.timeScale == 0f

@@ -14,5 +14,7 @@ public class AmbientAudioManager : SingletonPattern<AmbientAudioManager>
     public void ChangeMusic(AudioClip clip)
     {
         music.clip = clip;
+        if (!MenuManager.Instance.gameObject.activeSelf)
+            music.Play();
     }
 }
