@@ -9,7 +9,7 @@ public class Destroy : MonoBehaviour
 
     void Start()
     {
-
+        AmbientAudioManager.Instance.ChangeMusic(musicClip);
     }
 
     public void Delete()
