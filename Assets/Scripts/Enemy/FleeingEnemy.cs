@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class FleeingEnemy : Enemy
 {
+    [SerializeField]
+    private AudioClip fleeingClip;
+
     public void FixedUpdate()
     {
         if (!SeenPlayer) return;
@@ -31,6 +34,7 @@ public class FleeingEnemy : Enemy
         get => base.SeenPlayer; 
         set
         {
+            if (!base.SeenPlayer) deathSound.PlayOneShot(fleeingClip);
             base.SeenPlayer = value;
             animController.SetTrigger("CastRun");
         }
