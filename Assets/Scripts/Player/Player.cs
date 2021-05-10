@@ -267,7 +267,7 @@ public class Player : SingletonPattern<Player>
             StartCoroutine(Attack());
         }
 
-        Health -= Time.deltaTime;
+        Health -= Time.deltaTime * 3f;
     }
     #endregion
 
@@ -325,7 +325,7 @@ public class Player : SingletonPattern<Player>
         bool sucking = true;
 
         float p0 = Health;
-        float p1 = Health + 30f;
+        float p1 = Health + 3000f;
         float p01 = 0;
 
         while (sucking)
