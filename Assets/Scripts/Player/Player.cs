@@ -8,6 +8,16 @@ using UnityEngine;
 /// <remarks>Handles movement, rotating the player, and all of their commands.</remarks>
 public class Player : SingletonPattern<Player>
 {
+    [System.Serializable]
+    public struct PlayerAudio
+    {
+        public AudioSource attackSound;
+        public AudioSource walkingSound;
+        public AudioSource lurchSound;
+        public AudioSource deathSound;
+    }
+
+
     #region Fields
     #region Public
     /// <summary> The attack zone of the player. </summary>
@@ -40,6 +50,8 @@ public class Player : SingletonPattern<Player>
 
     public Animator animController;
 
+    public PlayerAudio playerSources;
+
     #endregion
 
     #region Private
@@ -63,6 +75,9 @@ public class Player : SingletonPattern<Player>
 
     [SerializeField]
     private GameObject deathAnim;
+
+    [SerializeField]
+    private GameObject fleeZone;
     #endregion
     #endregion
 
@@ -91,6 +106,7 @@ public class Player : SingletonPattern<Player>
                 animController.SetBool("IsDead", true);
 
                 animController.applyRootMotion = true;
+                playerSources.deathSound.Play();
 
                 //PlayerUIManager.Instance?.DeathFade();
 
@@ -140,6 +156,8 @@ public class Player : SingletonPattern<Player>
     /// <summary> Flag for if the player is dead or alive. </summary>
     /// <value>The value is true if the player's health is at or below zero.</value>
     private bool IsDead { get; set; } = false;
+
+    private bool HasAttacked { get; set; }
     #endregion
     #endregion
 
@@ -172,9 +190,7 @@ public class Player : SingletonPattern<Player>
     #region Updates
     private void FixedUpdate()
     {
-        if (IsDead || Tutorial.Instance.gameObject.activeSelf) return;
-
-        if (IsLurching || IsSucking) return;
+        if (!HasAttacked || IsDead || Tutorial.Instance.gameObject.activeSelf || IsLurching || IsSucking) return;
 
         if (Input.GetKey(KeyCode.W)
             || Input.GetKey(KeyCode.S)
@@ -182,21 +198,38 @@ public class Player : SingletonPattern<Player>
             || Input.GetKey(KeyCode.D))
         {
             animController.SetBool("IsWalking", true);
+            if (!playerSources.walkingSound.isPlaying)
+            {
+                playerSources.walkingSound.Play();
+            }
             Move();
         }
         else
         {
             animController.SetBool("IsWalking", false);
+            playerSources.walkingSound.Stop();
         }
     }
 
     private void Update()
     {
+
         if (IsDead
             || Tutorial.Instance.gameObject.activeSelf
             || MenuManager.Instance.gameObject.activeSelf) 
             return;
         
+        if (Input.GetMouseButtonDown(0) && !HasAttacked)
+        {
+            HasAttacked = true;
+            if (AmbientAudioManager.Instance != null)
+            {
+                AmbientAudioManager.Instance.music.Play();
+            }
+            fleeZone.SetActive(true);
+        }
+
+        if (!HasAttacked) return;
 
         if (Input.GetKeyDown(KeyCode.Escape))
             PauseMenu.Instance.gameObject.SetActive(!PauseMenu.Instance.gameObject.activeSelf);
@@ -234,7 +267,7 @@ public class Player : SingletonPattern<Player>
             StartCoroutine(Attack());
         }
 
-        Health -= Time.deltaTime;
+        Health -= Time.deltaTime * 3f;
     }
     #endregion
 
@@ -292,7 +325,7 @@ public class Player : SingletonPattern<Player>
         bool sucking = true;
 
         float p0 = Health;
-        float p1 = Health + 30f;
+        float p1 = Health + 3000f;
         float p01 = 0;
 
         while (sucking)
@@ -326,6 +359,8 @@ public class Player : SingletonPattern<Player>
 
         animController.SetTrigger("CastAttack");
 
+        playerSources.attackSound.Play();
+
         #region Dart Removal
         TranqDartStack = 0;
 
@@ -355,6 +390,7 @@ public class Player : SingletonPattern<Player>
     {
         attackZone.SetActive(true);
         animController.SetTrigger("CastLurch");
+        playerSources.lurchSound.Play();
         Vector3 p0 = playerTrans.position;
         Vector3 p1 = playerTrans.position + transform.forward;
         Vector3 p01;

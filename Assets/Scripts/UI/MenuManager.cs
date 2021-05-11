@@ -26,7 +26,6 @@ public class MenuManager : SingletonPattern<MenuManager>
         //transform.Find("Main Menu").gameObject.SetActive(false);
         Tutorial.Instance.gameObject.SetActive(true);
         gameObject.SetActive(false);
-
     }
 
     

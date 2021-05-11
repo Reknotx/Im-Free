@@ -7,8 +7,11 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public ParticleSystem bloodSplatter;
+    public Animator animController;
 
     private bool _isAttacked = false;
+
+    public AudioSource deathSound;
 
     /// <summary> Flag to check if the enemy has ever been attacked by the player. </summary>
     /// <value>A value of true means the enemy has been attacked.</value>
@@ -21,18 +24,19 @@ public class Enemy : MonoBehaviour
             {
                 bloodSplatter.Play();
                 ScoreManager.Instance.AddScore(1000);
+                deathSound.Play();
+                _isAttacked = true;
             }
 
-            _isAttacked = true;
 
             if (value)
             {
                 GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             }
-
+            animController.SetTrigger("CastDead");
         }
     }
     /// <summary> Flag to check if the enemy has ever seen the player. </summary>
     /// <value>A value of true means the enemy has seen the player and will now flee/attack. </value>
-    public bool SeenPlayer { get; set; } = false;
+    public virtual bool SeenPlayer { get; set; } = false;
 }

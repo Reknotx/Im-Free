@@ -104,6 +104,6 @@ public class ScoreManager : SingletonPattern<ScoreManager>
             yield return new WaitForFixedUpdate();
         }
         multiplierSlider.gameObject.SetActive(false);
-        MultiValue = 0;
+        MultiValue = 1;
     }
 }
