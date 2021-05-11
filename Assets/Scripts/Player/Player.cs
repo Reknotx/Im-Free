@@ -467,6 +467,7 @@ public class Player : SingletonPattern<Player>
             {
                 obj.transform.parent = null;
                 obj.GetComponent<Rigidbody>().AddForce(punchDir.normalized * forceModifier);
+                obj.GetComponent<PunchableObj>().Punched();
             }
 
             Destroy(punchedObj.gameObject);

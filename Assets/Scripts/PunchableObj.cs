@@ -17,6 +17,17 @@ public class PunchableObj : MonoBehaviour
     public bool BeenPunched { get; set; } = false;
     public GameObject kapowPrefab;
 
+    private void Awake()
+    {
+        foreach (Transform child in transform)
+        {
+            child.GetComponent<PunchableObj>().enabled = false;
+            child.GetComponent<Rigidbody>().isKinematic = true;
+            child.GetComponent<Rigidbody>().useGravity = false;
+            child.GetComponent<Collider>().enabled = false;
+        }
+    }
+
     public virtual void Punched()
     {
         if (BeenPunched) return;
