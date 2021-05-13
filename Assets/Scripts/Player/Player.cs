@@ -52,6 +52,8 @@ public class Player : SingletonPattern<Player>
 
     public PlayerAudio playerSources;
 
+    public ParticleSystem healing;
+
     #endregion
 
     #region Private
@@ -328,6 +330,7 @@ public class Player : SingletonPattern<Player>
 
         bool sucking = true;
 
+        healing.Play();
         float p0 = Health;
         float p1 = Health + 3000f;
         float p01 = 0;
