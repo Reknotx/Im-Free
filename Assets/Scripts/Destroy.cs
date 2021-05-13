@@ -34,6 +34,6 @@ public class Destroy : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
 
-        LeanTween.alphaCanvas(locationFade, 0f, 1f).setDestroyOnComplete(true);
+        LeanTween.alphaCanvas(locationFade, 0f, 1f);
     }
 }
