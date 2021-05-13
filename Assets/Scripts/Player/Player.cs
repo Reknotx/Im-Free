@@ -471,7 +471,15 @@ public class Player : SingletonPattern<Player>
             {
                 obj.transform.parent = null;
                 obj.GetComponent<Rigidbody>().AddForce(punchDir.normalized * forceModifier);
-                obj.GetComponent<PunchableObj>().Punched();
+                if (obj.TryGetComponent(out PunchableObj punchableObj))
+                {
+                    punchableObj.Punched();
+                }
+                else if (obj.TryGetComponent(out GlassDespawn despawn))
+                {
+                    despawn.enabled = true;
+                    despawn.GetComponent<Rigidbody>().isKinematic = true;
+                }
             }
 
             Destroy(punchedObj.gameObject);
@@ -488,9 +496,10 @@ public class Player : SingletonPattern<Player>
                 Debug.Log("Punched enemy");
                 punchedObj.GetComponent<Enemy>().IsAttacked = true;
             }
-            else
+            else if (punchedObj.TryGetComponent(out PunchableObj punched))
             {
-                punchedObj.GetComponent<PunchableObj>().Punched();
+                punched.Punched();
+
             }
 
             punchedObj.AddForce(punchDir.normalized * forceModifier);

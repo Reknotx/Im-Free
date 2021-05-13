@@ -28,6 +28,13 @@ public class PunchableObj : MonoBehaviour
                 punchable.GetComponent<Rigidbody>().useGravity = false;
                 punchable.GetComponent<Collider>().enabled = false;
             }
+            else if (child.TryGetComponent(out GlassDespawn despawn))
+            {
+                despawn.enabled = false;
+                despawn.GetComponent<Rigidbody>().isKinematic = true;
+                despawn.GetComponent<Rigidbody>().useGravity = false;
+                despawn.GetComponent<Collider>().enabled = false;
+            }
         }
     }
 
