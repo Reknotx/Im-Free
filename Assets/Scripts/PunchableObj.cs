@@ -21,10 +21,13 @@ public class PunchableObj : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            child.GetComponent<PunchableObj>().enabled = false;
-            child.GetComponent<Rigidbody>().isKinematic = true;
-            child.GetComponent<Rigidbody>().useGravity = false;
-            child.GetComponent<Collider>().enabled = false;
+            if (child.TryGetComponent(out PunchableObj punchable))
+            {
+                punchable.enabled = false;
+                punchable.GetComponent<Rigidbody>().isKinematic = true;
+                punchable.GetComponent<Rigidbody>().useGravity = false;
+                punchable.GetComponent<Collider>().enabled = false;
+            }
         }
     }
 
