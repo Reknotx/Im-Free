@@ -226,6 +226,10 @@ public class Player : SingletonPattern<Player>
             {
                 AmbientAudioManager.Instance.music.Play();
             }
+
+            transform.parent.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            transform.parent.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+
             fleeZone.SetActive(true);
         }
 
