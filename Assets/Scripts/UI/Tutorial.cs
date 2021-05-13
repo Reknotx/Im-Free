@@ -27,6 +27,17 @@ public class Tutorial : SingletonPattern<Tutorial>
         }
     }
 
+    public void GoBack()
+    {
+        if (index == 0) return;
+        else
+        {
+            transform.GetChild(index).gameObject.SetActive(false);
+            index--;
+            transform.GetChild(index).gameObject.SetActive(true);
+        }
+    }
+
     public void CloseTutorial()
     {
         gameObject.SetActive(false);

@@ -42,18 +42,25 @@ public class OptionsManager : MonoBehaviour
 
     public void SetMasterVolume(float value)
     {
-        audioSettings[(int)AudioGroups.Master].SetExposedParam(value);
+        float trueValue = value;
+        if (value <= -40) trueValue = -80f;
+        audioSettings[(int)AudioGroups.Master].SetExposedParam(trueValue);
+
     }
 
     public void SetMusicVolume(float value)
     {
-        audioSettings[(int)AudioGroups.Music].SetExposedParam(value);
+        float trueValue = value;
+        if (value <= -40) trueValue = -80f;
+        audioSettings[(int)AudioGroups.Music].SetExposedParam(trueValue);
 
     }
 
     public void SetSFXVolume(float value)
     {
-        audioSettings[(int)AudioGroups.SFX].SetExposedParam(value);
+        float trueValue = value;
+        if (value <= -40) trueValue = -80f;
+        audioSettings[(int)AudioGroups.SFX].SetExposedParam(trueValue);
 
     }
 
