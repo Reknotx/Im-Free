@@ -1,6 +1,5 @@
 # Im-Free
-## Trailer
-youtube.com/watch?v=dvfaUryyKpY
+## Trailer youtube.com/watch?v=dvfaUryyKpY
 
 Credits
 Dylan Levy-Gantt - Designer/Producer	Chase O’Connor - Programming
